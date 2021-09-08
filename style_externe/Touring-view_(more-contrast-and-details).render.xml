@@ -1,0 +1,1158 @@
+<renderingStyle name="Touring-view_(more-contrast-and-details).render" depends="default" defaultColor="#f1eae4" version="1">
+
+	<!--
+	TOURING VIEW Renderer by Hardy Mueller, 2012-10-28 (Advanced version of the previous All-Purpose Renderer)
+		Differences of the "Touring View" vs. the "Default" Renderer:
+		In Touring View:
+		  * some road and track types already shown at lower zooms (essential for travel and orienteering)
+		  * the road colors allow unambiguous distinction between all highway/road/track types 
+		  * the road colors are more aligned with conventional road atlas
+		  * the road visibility is increased for better outdoor, driving, and navigation use
+		  * the route+gpx visibility increased
+		  * there are additional touring feature options
+                    - to display the SAC scale (for Alpine hiking)
+                    - display hiking route symbols (now moved as module to default renderer)
+                    - display bicycle networks (now moved as module to default renderer)
+		  * TODO: Area-sensitive rendering: Include _all_ roads in very low density areas (remote deserts, etc.)
+	-->
+
+	<!--
+	RENDERER CONCEPT: Concept of what is Rendered at what Zoom Level (Dr. Hardy Mueller, 2011-06-26)
+
+		The map rendering is aligned to "the typical map use" per zoom level (scale), to always produce a complete and dependable map (for travel/orienteering) at the lowest possible zoom, as follows:
+
+                 *****  *********************************  *****************
+		 Zoom
+		 Level  Typical Use                        Features Rendered
+                 *****  *********************************  *****************
+		 -  7   "Rough Region Level Overview"      Shows motorways, trunks, primary roads and city names
+		 - 11   "Country Road Atlas"               Secondary roads (already from zoom 9) and motorways/trunks/primaries from z7, secondaries from z9, tertiaries from z10. Show large scale landuse like forest and residential areas (already from zoom 10). Also all town names (already from zoom 9) and now all other locality names. Shows mountain peaks for orientation
+		 - 12   "Detailed Country Road Atlas"      Add all other public highways like road, unclassified, residential. Add tracks including track-type, and foot and bike paths. Also tag mountain peaks. Note that from this zoom level on ALL roads/tracks/paths are displayed, so it gives RELIABLE TRAVEL OVERVIEW!
+		 - 13   "Regional Driving. Good Overview"  Displays all driving as well as hiking connections. Show service, living street, pedestrian and footway highways. Include all area landuse.
+		 - 14   "Local Driving", also "Hiking Map"
+		 - 15   "City Driving"                     Display all details of interest for this
+		 - 16   "Walking", "City Tour"             Outline and tag buildings
+		 - 17   "Immediate orientation"            Building details, street corner details like traffic_signals, post_box, remaining POIs
+
+		- Remark: These were the original "static" zoom limits, before we expanded the rendering scheme below zoom 7 and created an algorithm to already "selectively" include significant map objects there at map creation time.
+		- roadColors="Road atlas style" scheme aligned with conventional road atlas, Saturation=50, Brightness=100, except trunk is considered special case of primary (same hue). For best visibility: routeColor="#960000FF, gpxColor="#B400FFFF".
+	-->
+
+	<!--
+	NIGHT VIEW CONCEPT: Main colors for night renderer, by Hardy Mueller, 2011-07-04, reworked to more grey/green pattern 2013-11-30:
+		Areas (night view collapses areas to groups for more homogeneity):
+		- defaultColorNight:             002a2a (middle brightness between lighter open nature and darker forests)
+		- forestColorNight:              001122
+		- openNatureColorNight:          004333 (i.e. non-forest/low vegetation)
+		- shaderColorNight:              334433 (replaces vegetation shaders, and special interest areas like parks, sports areas, etc.)
+		- waterColorNight:               330099
+		- builtUpAreasColorNight:        3b3b3b
+		- buldingColorNight:             685454
+		Roads:
+		- road brightness levels aligned with road priority!
+		- 'white' roads: 9f9f9f to darken high density areas sufficiently
+		- leave other road colors like day, for easy recognition!
+		- applied some additional (80% brightness) road dimming for car profile night view (as roads are thicker)
+	-->
+
+	<!--
+	ALPINE HIKING rendering Add-on by Christof Knuesel based on default renderer by Hardy Mueller
+		Purpose:
+		- Alpine Hiking option for mountain hiking with "Hike Bike Map (Hills Underlay)" as overlay map:
+		  With "Hike Bike Map (Hills Underlay)" it becomes hard to distinguish between black lines (path) and brown lines (track).
+		  For this reason tracks are rendered with higher strokewidth than paths,
+		  respectively as solid lines (all tracktypes), while paths are rendered as dashed lines (Alpine Hiking Mode).
+		- Roads: German map style
+
+		Legend:
+		1) Alpine Hiking Mode (advanced settings / Alpine Hiking enabled)
+		- Paths are colored by sac_scale:
+			black dashed line: sac_scale not specified or sac_scale = hiking
+			red solid line: sac_scale = mountain_hiking
+			red dashed line: sac_scale = demanding_mountain_hiking
+			blue solid line: sac_scale = alpine_hiking
+			blue dashed line: sac_scale = demanding_alpine_hiking
+			blue dotted line: sac_scale = difficult_alpine_hiking
+		- Tracks (all tracktypes) are rendered as brown solid lines
+
+		2) Other Modes
+		- Tracks are rendered as thick brown lines:
+			solid line (tracktype = grade1)
+			long dashed line (tracktype = grade2)
+			short dashed line (tracktype = grade3, short dashed narrow-spaced: tracktype not specified)
+			dash-dotted line (tracktype = grade4)
+			dotted line (tracktype = grade5)
+		- Paths are rendered as thin black lines:
+			long dashed line: sac_scale not specified or sac_scale = hiking
+			short dashed line: sac_scale = mountain_hiking 
+			dotted line: sac_scale = demanding_mountain_hiking and above
+
+		Christof Knuesel, 18.10.2012
+		email: dingsdale@gmx.de
+	-->
+
+	<!-- Draft descriptions to explain the Touring view map style:
+		<string name="plugin_touringview_name">Touring map view</string>
+		<string name="plugin_touringview_descr">Activating this view changes OsmAnd\'s map style to \'Touring view\', this is a special high-detail view for travelers and professional drivers.
+			\n\nThis view provides, at any given map zoom, the maximum amount of travel details available in the map data (particularly roads, tracks, paths, and orientation marks).
+			\n\nIt also clearly depicts all types of roads unambiguously by color coding, which is useful when e.g. driving large vehicles.
+			\n\nAnd it provides special touring options like showing bicycle routes or Alpine mountain routes.
+			\n\nA special map download is not needed, the view is created from our standard maps.
+			\n\nThis view can be reverted by either de-activating it again here, or by changing the \'Map style\' under \'Configure map\' as desired.
+		</string>
+	-->
+
+
+	<renderingProperty attr="showCycleRoutes" name="Show cycle routes" description="Show cycle routes (*cn_networks)"
+		type="boolean" possibleValues="" category="routes"/>
+	<renderingProperty attr="showMtbRoutes" name="Show MTB routes" description="Show mountain bike routes (*cn_networks)"
+		type="boolean" possibleValues="" category="routes"/>
+	<renderingProperty attr="hikingRoutesOSMC" name="Hiking symbol overlay" description="Render symbols of OSMC hiking traces"
+		type="string" possibleValues="walkingRoutesOSMC,walkingRoutesScopeOSMC" defaultValueDescription="disabled" category="routes"/>
+	<renderingProperty attr="alpineHiking" name="Alpine hiking view" description="Render paths according to SAC scale"
+		type="boolean" possibleValues="" category="routes"/>
+	<renderingProperty attr="horseRoutes" name="Horse routes" description="Horse routes"
+		type="boolean" possibleValues="" category="routes"/>
+
+	<renderingProperty attr="currentTrackColor" name="GPX color" description="Color of displayed GPX tracks"
+		type="string" possibleValues="translucent_cyan,red,translucent_red,orange,translucent_orange,yellow,translucent_yellow,lightgreen,translucent_lightgreen,green,translucent_green,lightblue,translucent_lightblue,blue,translucent_blue,purple,translucent_purple" defaultValueDescription="defaultTranslucentCyan"/>
+	<renderingProperty attr="currentTrackWidth" name="GPX width" description="Width of displayed GPX tracks"
+		type="string" possibleValues="fine,thin,medium,bold" defaultValueDescription="default"/>
+	<renderingProperty attr="roadStyle" category="ui_hidden" type="string"/>
+
+	<!-- road casing contrast higher than in default -->
+	<renderingAttribute name="shadowRendering">
+	<!-- 0 - no shadow, 1 - one step, 2 - blur shadow, 3 - solid shadow -->
+		<!-- next line ensures bridges stand out ok -->
+		<filter minzoom="14" nightMode="false" attrIntValue="3" shadowColor="#767676"/>
+		<filter minzoom="14" attrIntValue="3" shadowColor="#464646"/>
+		<filter minzoom="9" maxzoom="13" attrIntValue="3" shadowColor="#262626"/>
+		<filter attrIntValue="0"/>
+	<!-- This block seems broken, all occurrences of "shadowColor" below inserted on 2014-08-31 as temporary workaround -->
+	</renderingAttribute>
+
+	<!-- routeColor contrast higher than in default -->
+	<renderingAttribute name="route">
+		<!-- color_3 used for turn arrows on the route -->
+		<case color="#960000FF" strokeWidth="10:6" color_3="#2EFF00" strokeWidth_3="5:3">
+			<apply_if nightMode="true" color="#b400a0ff"/>
+		</case>
+	</renderingAttribute>
+
+	<!-- gpxColor contrast higher than in default -->
+	<renderingAttribute name="gpx">
+		<!--  This was the original block before introduction of renderingProperty currentTrackColor and currentTrackWidth:
+		<filter strokeWidth="7:6" cap="BUTT" color="#B400FFFF">
+			<filter nightMode="true" color="#B400FFFF"/>
+			<filter additional="routePoints=true" color="#B400FFFF" pathEffect="6_5"/>
+		</filter>
+		-->
+		<switch>
+			<case currentTrackColor="translucent_cyan" color="#B400FFFF"/>
+			<case currentTrackColor="red" color="#ff0000"/>
+			<case currentTrackColor="translucent_red" color="#88ff0000"/>
+			<case currentTrackColor="orange" color="#ff7200"/>
+			<case currentTrackColor="translucent_orange" color="#88ff7200"/>
+			<case currentTrackColor="yellow" color="#edc300"/>
+			<case currentTrackColor="translucent_yellow" color="#88edc300"/>
+			<case currentTrackColor="lightgreen" color="#6cb52b"/>
+			<case currentTrackColor="translucent_lightgreen" color="#886cb52b"/>
+			<case currentTrackColor="green" color="#00842b"/>
+			<case currentTrackColor="translucent_green" color="#8800842b"/>
+			<case currentTrackColor="lightblue" color="#2ec6ff"/>
+			<case currentTrackColor="translucent_lightblue" color="#882ec6ff"/>
+			<case currentTrackColor="blue" color="#4e4eff"/>
+			<case currentTrackColor="translucent_blue" color="#884e4eff"/>
+			<case currentTrackColor="purple" color="#a71de1"/>
+			<case currentTrackColor="translucent_purple" color="#88a71de1"/>
+			<case color="#B400FFFF"/>
+			<apply>
+				<case currentTrackWidth="fine" strokeWidth="2"/>
+				<case currentTrackWidth="thin" strokeWidth="4"/>
+				<case currentTrackWidth="medium" strokeWidth="8"/>
+				<case currentTrackWidth="bold" strokeWidth="12"/>
+				<case strokeWidth="8"/>
+			</apply>
+			<apply_if additional="routePoints=true" pathEffect="6_5"/>
+		</switch>
+	</renderingAttribute>
+
+	<renderingAttribute name="polygonMinSizeToDisplay">
+	<!-- Minimum polygon size in pixels -->
+	<!-- Some impact on performance, up to 20% at some zoom levels between 10 and 36 -->
+		<filter moreDetailed="true" attrIntValue="10"/>
+		<filter attrIntValue="36"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="roadDensityZoomTile">
+	<!-- 8 (=1 pixel tile) down to 0 (=large tile) -->
+		<filter attrIntValue="3"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="roadsDensityLimitPerTile">
+	<!-- Number of roads to display per tile - 24 default for bicycle and pedestrian, 12 otherwise -->
+	<!-- Minimal impact on performance, too small values like 12 lead to missing tracks hence map errors. 100 means basically unlimited. -->
+		<filter attrIntValue="100"/>
+	</renderingAttribute>
+
+	<!-- renderingConstant name="hmRendered" value="true"/-->
+	<!-- hmRendered now outdated as all minzooms are defined directly. Switch was formerly used to maximize map details and include roads as early as possible for travel and orienteering -->
+
+
+	<!-- Touring View color pattern -->
+
+	<!-- Touring View road colors -->
+	<!-- road color contrast higher than in default, and all road types clearly distinguishable -->
+	<renderingConstant name="motorwayRoadColor" value="#f7fe2e"/>
+	<renderingConstant name="motorwayRoadColor0" value="#fe2e2e"/>
+	<renderingConstant name="trunkRoadColor" value="#dcdcdc"/>
+	<renderingConstant name="trunkRoadColor0" value="#fe2e2e"/>
+	<renderingConstant name="trunkRoadColorNight" value="#ffffff"/>
+	<renderingConstant name="trunkRoadColor0Night" value="#fe2e2e"/>
+	<renderingConstant name="primaryRoadColor" value="#ff80a0"/>
+	<renderingConstant name="secondaryRoadColor" value="#ffd080"/>
+	<renderingConstant name="tertiaryRoadColor" value="#ffff80"/>
+
+	<!-- Dimmed road colors for car mode at night (80% Brightness) -->
+	<renderingConstant name="motorwayRoadColorDimmed" value="#c6cc26"/>
+	<renderingConstant name="motorwayRoadColor0Dimmed" value="#cc2626"/>
+	<renderingConstant name="trunkRoadColorDimmed" value="#cccccc"/>
+	<renderingConstant name="trunkRoadColor0Dimmed" value="#cc2626"/>
+	<renderingConstant name="primaryRoadColorDimmed" value="#cc6882"/>
+	<renderingConstant name="secondaryRoadColorDimmed" value="#cca568"/>
+	<renderingConstant name="tertiaryRoadColorDimmed" value="#cccc68"/>
+
+	<renderingAttribute name="residentialRoadColor">
+		<case attrColorValue="#ffffff">
+			<apply_if nightMode="true" attrColorValue="#9f9f9f"/>
+		</case>
+	</renderingAttribute>
+	<renderingAttribute name="serviceRoadColor">
+		<case attrColorValue="#ececec">
+			<apply_if nightMode="true" attrColorValue="#727272"/>
+		</case>
+	</renderingAttribute>
+
+	<renderingConstant name="trackColor" value="#996600"/>
+	<renderingConstant name="pathColorDay" value="#000000"/>
+	<renderingConstant name="pathColorNight" value="#787878"/>
+	<renderingConstant name="cyclewayColorDay" value="#0000ff"/>
+	<renderingConstant name="footwayColorDay" value="#fa5073"/>
+	<renderingConstant name="bridlewayColorDay" value="#339900"/>
+
+	<renderingConstant name="shadowColorDay" value="#767676"/>
+	<renderingConstant name="shadowColorNight" value="#464646"/>
+	<renderingConstant name="shadowColorLowZoom" value="#262626"/>
+
+	<renderingConstant name="constructionRoadColor" value="#ff6600"/>
+	<renderingConstant name="constructionRoadColor2" value="#ffffff"/>
+	<renderingConstant name="proposedRoadColor" value="#ff6600"/>
+	<renderingConstant name="proposedRoadColor2" value="#9f9f9f"/>
+	<renderingConstant name="racewayColorDay" value="#ffc5cf"/>
+	<renderingConstant name="racewayColorNight" value="#cd9fa7"/>
+
+	<renderingConstant name="accessPrivateColor" value="#feb3b3"/>
+
+<!--	<renderingConstant name="contourLineColor" value="#2Aff7c00"/>
+	<renderingConstant name="contourLineColor50m" value="#2Aea7300"/>
+-->
+
+	<renderingConstant name="sacScaleColorT1" value="#000000"/>
+	<renderingConstant name="sacScaleColorT2" value="#ff0000"/>
+	<renderingConstant name="sacScaleColorT3" value="#ff0000"/>
+	<renderingConstant name="sacScaleColorT4" value="#0033ff"/>
+	<renderingConstant name="sacScaleColorT5" value="#0033ff"/>
+	<renderingConstant name="sacScaleColorT6" value="#0033ff"/>
+
+<!--	<renderingConstant name="cycleRoutelcnColor" value="#400000ff"/>
+	<renderingConstant name="cycleRoutercnColor" value="#40ff00ff"/>
+	<renderingConstant name="cycleRoutencnColor" value="#40ff4000"/>
+	<renderingConstant name="cycleRouteicnColor" value="#40ff0000"/>
+-->
+
+	<renderingConstant name="null" value="#00000000"/>
+
+	<!-- Area colors for touring relevant area features, this also ensures they are always displayed -->
+
+	<!-- constants for night colors, as they often collapse several different day features -->
+	<renderingConstant name="defaultColorNight" value="#002a2a"/>
+	<renderingConstant name="forestColorNight" value="#001122"/>
+	<renderingAttribute name="openNatureColorNight">
+		<case attrColorValue="#004333"/>
+	</renderingAttribute>
+	<renderingConstant name="shaderColorNight" value="#334433"/>
+	<renderingConstant name="waterColorNight" value="#330099"/>
+	<renderingConstant name="builtUpAreasColorNight" value="#3b3b3b"/>
+	<renderingConstant name="buildingColorNight" value="#685454"/>
+
+	<renderingAttribute name="defaultColor">
+		<case noPolygons="true" attrColorValue="#00555555"/>
+		<case attrColorValue="#f1eae4">
+			<apply_if nightMode="true" attrColorValue="$defaultColorNight"/>
+		</case>
+	</renderingAttribute>
+
+	<!-- Wooded areas, forest -->
+	<renderingAttribute name="woodColor">
+		<case nightMode="true" attrColorValue="$forestColorNight"/>
+		<case attrColorValue="#aed1a0"/>
+		<!-- also scrub -->
+	</renderingAttribute>
+	<renderingAttribute name="forestColor">
+		<case nightMode="true" attrColorValue="$forestColorNight"/>
+		<case attrColorValue="#aed1a0"/>
+		<!-- case attrColorValue="#9dd57c"/ was too intensive for a backgound, obscured visibility inside and the new shaders -->
+	</renderingAttribute>
+
+	<!-- Open nature (low vegetation) -->
+	<renderingAttribute name="desertColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#fff7bf"/>
+	</renderingAttribute>
+	<renderingAttribute name="lavaColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#ffe7ff"/>
+	</renderingAttribute>
+	<renderingAttribute name="meadowColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="grasslandColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="grassColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="heathColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#d6d99f"/>
+	</renderingAttribute>
+	<renderingAttribute name="greenfieldColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#a5a574"/>
+	</renderingAttribute>
+	<renderingAttribute name="brownfieldColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#a5a574"/>
+	</renderingAttribute>
+	<renderingAttribute name="farmColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#e7ebca"/>
+	</renderingAttribute>
+	<renderingAttribute name="gardenColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseAllotmentsColor">
+		<case nightMode="true" attrColorValue="$openNatureColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<!-- from default for now: landuse=cemetery, natural=fell, natural=bare_rock(/scree/shingle), natural=beach, natural=sand, natural=wetland, natural=glacier -->
+
+	<!-- Water -->
+	<renderingAttribute name="waterColor">
+		<case nightMode="true" attrColorValue="$waterColorNight"/>
+		<case attrColorValue="#b5d0ff"/>
+	</renderingAttribute>
+
+	<!-- Built-up areas -->
+	<renderingAttribute name="landuseResidentialColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#d9ddd7"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseResidentialRuralColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#d9ddd7"/>
+	</renderingAttribute>
+	<renderingAttribute name="farmyardColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#e4d0b3"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseCommercialColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#efc8c8"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseRetailColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#efd0c8"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseIndustrialColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#dfd1d6"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseRailwayColor">
+		<case nightMode="true" attrColorValue="$builtUpAreasColorNight"/>
+		<case attrColorValue="#dfd1d6"/>
+	</renderingAttribute>
+	<renderingAttribute name="attractionColor">
+		<case nightMode="true" attrColorValue="$null"/>
+		<case attrColorValue="#20dd00b1"/>
+	</renderingAttribute>
+
+	<!-- Construction is special case, use conventional white/orange warning effect -->
+	<renderingAttribute name="landuseConstructionColor">
+		<case nightMode="true" attrColorValue="#727272"/>
+		<case attrColorValue="#ffffff"/>
+	</renderingAttribute>
+	<renderingAttribute name="landuseConstructionStrokeColor">
+		<case attrColorValue="#ff6600"/>
+	</renderingAttribute>
+
+	<!-- Buildings -->
+	<renderingAttribute name="buildingColor">
+		<case nightMode="true" attrColorValue="$buildingColorNight"/>
+		<case attrColorValue="#bca9a9"/>
+	</renderingAttribute>
+	<renderingAttribute name="churchColor">
+		<case nightMode="true" attrColorValue="$buildingColorNight"/>
+		<case attrColorValue="#bca9a9"/>
+	</renderingAttribute>
+	<renderingAttribute name="stadiumColor">
+		<case nightMode="true" attrColorValue="$buildingColorNight"/>
+		<case attrColorValue="#bca9a9"/>
+	</renderingAttribute>
+	<renderingAttribute name="stadiumStrokeColor">
+		<case attrColorValue="$null"/>
+	</renderingAttribute>
+
+	<!-- Special interest areas which must remain distinguishable from open nature at night -->
+	<renderingAttribute name="sportsCentreColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#33cc99"/>
+	</renderingAttribute>
+	<renderingAttribute name="sportsCentreStrokeColor">
+		<case attrColorValue="$null"/>
+	</renderingAttribute>
+	<renderingAttribute name="pitchColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="pitchColorStroke">
+		<case nightMode="true" attrColorValue="$null"/>
+		<case attrColorValue="#66666666"/>
+	</renderingAttribute>
+	<renderingAttribute name="recreationGroundColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#ade5a1"/>
+	</renderingAttribute>
+	<renderingAttribute name="golfCourseColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#ade5a1"/>
+	</renderingAttribute>
+	<renderingAttribute name="leisureResortColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#b0b6fdb6"/>
+	</renderingAttribute>
+	<renderingAttribute name="villageGreenColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#cfeca8"/>
+	</renderingAttribute>
+	<renderingAttribute name="parkColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#ade5a1"/>
+	</renderingAttribute>
+	<renderingAttribute name="parkStrokeColor">
+		<case attrColorValue="#9db487"/>
+	</renderingAttribute>
+	<renderingAttribute name="playgroundColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#33cc99"/>
+	</renderingAttribute>
+	<renderingAttribute name="themeparkColor">
+		<case nightMode="true" attrColorValue="$shaderColorNight"/>
+		<case attrColorValue="#20dd00b1"/>
+	</renderingAttribute>
+	<renderingAttribute name="themeparkStrokeColor">
+		<case attrColorValue="#734a08"/>
+	</renderingAttribute>
+
+	<!-- Parking areas -->
+	<renderingAttribute name="parkingColor">
+		<case nightMode="true" attrColorValue="#36455a"/>
+		<case attrColorValue="#f6eeb7"/>
+	</renderingAttribute>
+	<renderingAttribute name="parkingPrivateColor">
+		<case nightMode="true" attrColorValue="#7741536c"/>
+		<case attrColorValue="#77f6eeb7"/>
+	</renderingAttribute>
+	<renderingAttribute name="parkingCustomersColor">
+		<case nightMode="true" attrColorValue="#7741536c"/>
+		<case attrColorValue="#77f6eeb7"/>
+	</renderingAttribute>
+	<renderingAttribute name="bicycleParkingColor">
+		<case nightMode="true" attrColorValue="#36455a"/>
+		<case attrColorValue="#f6eeb7"/>
+	</renderingAttribute>
+
+
+	<!-- Text colors -->
+	<renderingConstant name="black" value="#000000"/>
+	<renderingConstant name="white" value="#ffffff"/>
+
+	 <renderingAttribute name="tertiaryTextColor">
+		<case attrColorValue="$black"/>
+	</renderingAttribute>
+	<renderingAttribute name="residentialTextColor">
+		<case nightMode="true" attrColorValue="$white"/>
+		<case attrColorValue="$black"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="residentialTextHaloColor">
+		<case attrColorValue="$residentialRoadColor"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="pedestrianTextColor">
+		<case nightMode="true" attrColorValue="$white"/>
+		<case attrColorValue="$black"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="serviceTextColor">
+		<case nightMode="true" attrColorValue="$white"/>
+		<case attrColorValue="$black"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="serviceTextHaloColor">
+		<case nightMode="true" attrColorValue="#6f6f6f"/>
+		<case attrColorValue="#ececec"/>
+	</renderingAttribute>
+	<renderingAttribute name="serviceDrivewayTextHaloColor">
+		<case nightMode="true" attrColorValue="#6f6f6f"/>
+		<case attrColorValue="#ececec"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="waterTextColor">
+		<case nightMode="true" attrColorValue="#8EAAEB"/>
+		<case attrColorValue="#2375aa"/>
+	</renderingAttribute>
+
+	<renderingAttribute name="waterTextHaloColor">
+		<case nightMode="true" attrColorValue="#9939528B"/>
+		<case attrColorValue="#99ddf1fd"/>
+	</renderingAttribute>
+
+
+	<order>
+<!--		<filter baseAppMode="bicycle" showCycleRoutes="true" tag="lcn_network" value="lcn" order="110"/>
+		<filter baseAppMode="bicycle" showCycleRoutes="true" tag="rcn_network" value="rcn" order="111"/>
+		<filter baseAppMode="bicycle" showCycleRoutes="true" tag="ncn_network" value="ncn" order="112"/>
+		<filter baseAppMode="bicycle" showCycleRoutes="true" tag="icn_network" value="icn" order="113"/>
+-->
+	</order>
+
+
+	<text>
+<!--		<group>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="lcn_network" value="lcn" nameTag="lcn_ref" textColor="$cyclewayColorDay" textOrder="22"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="rcn_network" value="rcn" nameTag="rcn_ref" textColor="$cyclewayColorDay" textOrder="21"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="ncn_network" value="ncn" nameTag="ncn_ref" textColor="$cyclewayColorDay" textOrder="20"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="icn_network" value="icn" nameTag="icn_ref" textColor="$cyclewayColorDay" textOrder="19"/>
+			<groupFilter baseAppMode="bicycle" textOnPath="true" >
+				<filter minzoom="13" maxzoom="13" textDy="-11" textHaloRadius="1" textSize="10"/>
+				<filter minzoom="14" maxzoom="14" textDy="-12" textHaloRadius="1" textSize="11"/>
+				<filter minzoom="15" maxzoom="15" textDy="-14" textHaloRadius="1" textSize="13"/>
+				<filter minzoom="16" maxzoom="16" textDy="-16" textHaloRadius="1" textSize="15"/>
+				<filter minzoom="17" maxzoom="17" textDy="-20" textHaloRadius="1" textSize="18"/>
+				<filter minzoom="18" textDy="-25" textHaloRadius="1" textSize="21"/>
+			</groupFilter>
+		</group>
+-->
+	</text>
+
+
+	<point>
+	</point>
+
+
+	<polygon>
+		<!-- Polygon highways -->
+		<group>
+			<filter tag="highway" value="road"/>
+			<filter tag="highway" value="unclassified"/>
+			<filter tag="highway" value="residential"/>
+			<groupFilter color="$residentialRoadColor" color_2="$shadowColorDay" minzoom="12" strokeWidth_2=":1">
+				<filter nightMode="true" color_2="$shadowColorNight"/>
+			</groupFilter>
+		</group>
+
+		<group>
+			<filter tag="highway" value="service"/>
+			<filter tag="highway" value="pedestrian"/>
+			<filter tag="highway" value="footway"/>
+			<groupFilter>
+				<filter minzoom="13" color="$serviceRoadColor" color_2="$shadowColorDay" strokeWidth_2=":1"/>
+			</groupFilter>
+			<groupFilter nightMode="true" color_2="$shadowColorNight"/>
+		</group>
+	</polygon>
+
+
+	<line>
+		<!-- This section needed because Touring View defines customized road patterns and earlier minzooms -->
+		<switch>
+			<group>
+				<filter tag="highway" value="motorway"/>
+				<filter tag="highway" value="trunk"/>
+				<groupFilter>
+					<!-- (Car night mode roads Brightness=80% instead of 100%) -->
+					<filter baseAppMode="car" tag="highway" value="motorway" nightMode="true" color="$motorwayRoadColorDimmed" color_0="$motorwayRoadColor0Dimmed"/>
+					<filter baseAppMode="car" tag="highway" value="trunk" nightMode="true" color="$trunkRoadColorDimmed" color_0="$trunkRoadColor0Dimmed"/>
+					<filter tag="highway" value="trunk" nightMode="true" color="$trunkRoadColorNight" color_0="$trunkRoadColor0Night"/>
+					<filter tag="highway" value="motorway" color="$motorwayRoadColor" color_0="$motorwayRoadColor0"/>
+					<filter tag="highway" value="trunk" color="$trunkRoadColor" color_0="$trunkRoadColor0"/>
+				</groupFilter>
+				<groupFilter cap="ROUND">
+					<filter minzoom="5" maxzoom="6" strokeWidth="1" strokeWidth_0="3"/>
+					<filter minzoom="7" maxzoom="7" strokeWidth="1.3" strokeWidth_0="4"/>
+					<filter minzoom="8" maxzoom="8" strokeWidth="1.7" strokeWidth_0="5"/>
+					<filter minzoom="9" maxzoom="9" strokeWidth="2" strokeWidth_0="6"/>
+					<filter baseAppMode="car"> <!-- bigger strokewidth for better visibility of road type during navigation -->
+						<filter minzoom="10" maxzoom="10" strokeWidth="2.7" strokeWidth_0="8"/>
+						<filter minzoom="11" maxzoom="11" strokeWidth="3.3" strokeWidth_0="10"/>
+						<filter minzoom="12" maxzoom="12" strokeWidth="4" strokeWidth_0="12"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth="5" strokeWidth_0="15"/>
+						<filter minzoom="14" maxzoom="14" strokeWidth="6" strokeWidth_0="18"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="8" strokeWidth_0="24"/>
+						<filter minzoom="16" strokeWidth="10" strokeWidth_0="30"/>
+					</filter>
+					<filter minzoom="10" maxzoom="10" strokeWidth="2.3" strokeWidth_0="7"/>
+					<filter minzoom="11" maxzoom="11" strokeWidth="2.7" strokeWidth_0="8"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth="3" strokeWidth_0="9"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="3.3" strokeWidth_0="10"/>
+					<filter minzoom="14" maxzoom="14" strokeWidth="4" strokeWidth_0="12"/>
+					<filter minzoom="15" maxzoom="15" strokeWidth="5" strokeWidth_0="15"/>
+					<filter minzoom="16" strokeWidth="6.7" strokeWidth_0="20"/>
+					<!-- Tunnels and Bridges -->
+					<groupFilter layer="-1" minzoom="14" pathEffect="6_6" cap="BUTT" pathEffect_0="6_6" color__1="#000000" pathEffect__1="6_6">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth__1="18:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth__1="24:4"/>
+							<filter minzoom="16" strokeWidth__1="30:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth__1="12:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth__1="15:4"/>
+						<filter minzoom="16" strokeWidth__1="20:4"/>
+						<groupFilter nightMode="true" color__1="#ffffff"/>
+					</groupFilter>
+					<groupFilter layer="1" color__1="#000000" cap_0="BUTT" cap="SQUARE">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth__1="18:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth__1="24:4"/>
+							<filter minzoom="16" strokeWidth__1="30:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth__1="12:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth__1="15:4"/>
+						<filter minzoom="16" strokeWidth__1="20:4"/>
+						<groupFilter nightMode="true" color__1="#ffffff"/>
+					</groupFilter>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="motorway_link"/>
+				<filter tag="highway" value="trunk_link"/>
+				<groupFilter>
+					<filter baseAppMode="car" tag="highway" value="motorway_link" nightMode="true" color="$motorwayRoadColorDimmed" color_0="$motorwayRoadColor0Dimmed"/>
+					<filter baseAppMode="car" tag="highway" value="trunk_link" nightMode="true" color="$trunkRoadColorDimmed" color_0="$trunkRoadColor0Dimmed"/>
+					<filter tag="highway" value="trunk_link" nightMode="true" color="$trunkRoadColorNight" color_0="$trunkRoadColor0Night"/>
+					<filter tag="highway" value="motorway_link" color="$motorwayRoadColor" color_0="$motorwayRoadColor0"/>
+					<filter tag="highway" value="trunk_link" color="$trunkRoadColor" color_0="$trunkRoadColor0"/>
+				</groupFilter>
+				<groupFilter cap="ROUND">
+					<filter minzoom="10" maxzoom="10" strokeWidth="1.5" strokeWidth_0="3"/>
+					<filter minzoom="11" maxzoom="11" strokeWidth="2" strokeWidth_0="4"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth="3" strokeWidth_0="6"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="4" strokeWidth_0="8"/>
+					<filter minzoom="14" maxzoom="14" strokeWidth="5" strokeWidth_0="10"/>
+					<filter minzoom="15" maxzoom="15" strokeWidth="6" strokeWidth_0="12"/>
+					<filter minzoom="16" strokeWidth="7" strokeWidth_0="14"/>
+					<!-- Tunnels and Bridges -->
+					<groupFilter layer="-1" minzoom="14" pathEffect="4_4" cap="BUTT" pathEffect_0="4_4" color__1="#000000" pathEffect__1="4_4">
+						<filter minzoom="14" maxzoom="14" strokeWidth__1="10:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth__1="12:4"/>
+						<filter minzoom="16" strokeWidth__1="14:4"/>
+						<groupFilter nightMode="true" color__1="#ffffff"/>
+					</groupFilter>
+					<groupFilter layer="1" color__1="#000000" cap_0="BUTT" cap="SQUARE">
+						<filter minzoom="14" maxzoom="14" strokeWidth__1="10:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth__1="12:4"/>
+						<filter minzoom="16" strokeWidth__1="14:4"/>
+						<groupFilter nightMode="true" color__1="#ffffff"/>
+					</groupFilter>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="primary"/>
+				<filter tag="highway" value="primary_link"/>
+				<groupFilter>
+					<filter baseAppMode="car" nightMode="true" color="$primaryRoadColorDimmed"/>
+					<filter color="$primaryRoadColor"/>
+				</groupFilter>
+				<groupFilter shadowRadius=":1.5" shadowColor="$shadowColorDay" cap="ROUND">
+					<filter minzoom="5" maxzoom="6" strokeWidth="1"/>
+					<filter minzoom="7" maxzoom="8" strokeWidth="2"/>
+					<filter minzoom="9" maxzoom="9" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+					<filter baseAppMode="car"> <!-- bigger strokewidth for better visibility of road type during navigation -->
+						<filter minzoom="10" maxzoom="10" strokeWidth="5" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="11" maxzoom="11" strokeWidth="6" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="12" maxzoom="12" strokeWidth="7" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth="8" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="14" maxzoom="14" strokeWidth="14"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="18"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth="23"/>
+						<filter minzoom="17" strokeWidth="27"/>
+					</filter>
+					<filter minzoom="10" maxzoom="10" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="11" maxzoom="11" strokeWidth="4" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth="5" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="7" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="14" maxzoom="14" strokeWidth="9"/>
+					<filter minzoom="15" maxzoom="15" strokeWidth="12"/>
+					<filter minzoom="16" maxzoom="16" strokeWidth="15"/>
+					<filter minzoom="17" strokeWidth="20"/>
+					<!-- Tunnels and Bridges -->
+					<groupFilter layer="-1" minzoom="14" pathEffect="4_4" color_0="#000000" pathEffect_0="4_4" shadowRadius=":0" cap="BUTT">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="14:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="18:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="23:4"/>
+							<filter minzoom="17" strokeWidth_0="27:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="9:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="12:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="15:4"/>
+						<filter minzoom="17" strokeWidth_0="20:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+					<groupFilter layer="1" color_0="#000000" shadowRadius=":0" cap_0="BUTT" cap="SQUARE">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="14:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="18:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="23:4"/>
+							<filter minzoom="17" strokeWidth_0="27:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="9:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="12:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="15:4"/>
+						<filter minzoom="17" strokeWidth_0="20:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+				<groupFilter nightMode="true" shadowColor="$shadowColorNight"/>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="secondary"/>
+				<filter tag="highway" value="secondary_link"/>
+				<groupFilter>
+					<filter baseAppMode="car" nightMode="true" color="$secondaryRoadColorDimmed"/>
+					<filter color="$secondaryRoadColor"/>
+				</groupFilter>
+				<groupFilter shadowRadius=":1.5" shadowColor="$shadowColorDay" cap="ROUND">
+					<filter minzoom="8" maxzoom="8" strokeWidth="1"/>
+					<filter minzoom="9" maxzoom="9" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter baseAppMode="car"> <!-- bigger strokewidth for better visibility of road type during navigation -->
+						<filter minzoom="10" maxzoom="10" strokeWidth="4" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="11" maxzoom="11" strokeWidth="5" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="12" maxzoom="12" strokeWidth="6" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth="7" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="14" maxzoom="14" strokeWidth="12"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="17"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth="22"/>
+						<filter minzoom="17" strokeWidth="26"/>
+					</filter>
+					<filter minzoom="10" maxzoom="10" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="11" maxzoom="11" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth="4" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="6" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="14" maxzoom="14" strokeWidth="8"/>
+					<filter minzoom="15" maxzoom="15" strokeWidth="10"/>
+					<filter minzoom="16" maxzoom="16" strokeWidth="14"/>
+					<filter minzoom="17" strokeWidth="19"/>
+					<!-- Tunnels and Bridges -->
+					<groupFilter layer="-1" minzoom="14" pathEffect="4_4" color_0="#000000" pathEffect_0="4_4" shadowRadius=":0" cap="BUTT">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="12:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="17:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="22:4"/>
+							<filter minzoom="17" strokeWidth_0="26:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="8:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="10:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="14:4"/>
+						<filter minzoom="17" strokeWidth_0="19:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+					<groupFilter layer="1" color_0="#000000" shadowRadius=":0" cap_0="BUTT" cap="SQUARE">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="12:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="17:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="22:4"/>
+							<filter minzoom="17" strokeWidth_0="26:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="8:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="10:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="14:4"/>
+						<filter minzoom="17" strokeWidth_0="19:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+				<groupFilter nightMode="true" shadowColor="$shadowColorNight"/>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="tertiary"/>
+				<filter tag="highway" value="tertiary_link"/>
+				<groupFilter>
+					<filter baseAppMode="car" nightMode="true" color="$tertiaryRoadColorDimmed"/>
+					<filter color="$tertiaryRoadColor"/>
+				</groupFilter>
+				<groupFilter shadowRadius=":1.5" shadowColor="$shadowColorDay" cap="ROUND">
+					<filter baseAppMode="car"> <!-- bigger strokewidth for better visibility of road type during navigation -->
+						<filter minzoom="10" maxzoom="10" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="11" maxzoom="11" strokeWidth="4" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="12" maxzoom="12" strokeWidth="5" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth="6" shadowColor="$shadowColorLowZoom"/>
+						<filter minzoom="14" maxzoom="14" strokeWidth="8"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="16"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth="22"/>
+						<filter minzoom="17" strokeWidth="26"/>
+					</filter>
+					<filter minzoom="10" maxzoom="10" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="11" maxzoom="11" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="4" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="14" maxzoom="14" strokeWidth="6"/>
+					<filter minzoom="15" maxzoom="15" strokeWidth="8"/>
+					<filter minzoom="16" maxzoom="16" strokeWidth="13"/>
+					<filter minzoom="17" strokeWidth="18"/>
+					<!-- Tunnels and Bridges -->
+					<groupFilter layer="-1" minzoom="14" pathEffect="4_4" color_0="#000000" pathEffect_0="4_4" shadowRadius=":0" cap="BUTT">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="8:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="16:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="22:4"/>
+							<filter minzoom="17" strokeWidth_0="26:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="6:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="8:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="13:4"/>
+						<filter minzoom="17" strokeWidth_0="18:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+					<groupFilter layer="1" color_0="#000000" shadowRadius=":0" cap_0="BUTT" cap="SQUARE">
+						<filter baseAppMode="car">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="8:4"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="16:4"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="22:4"/>
+							<filter minzoom="17" strokeWidth_0="26:4"/>
+						</filter>
+						<filter minzoom="14" maxzoom="14" strokeWidth_0="6:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth_0="8:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth_0="13:4"/>
+						<filter minzoom="17" strokeWidth_0="18:4"/>
+						<groupFilter nightMode="true" color_0="#ffffff"/>
+					</groupFilter>
+				<groupFilter nightMode="true" shadowColor="$shadowColorNight"/>
+				</groupFilter>
+			</group>
+
+			<!-- Blocks roads/unclassified/residential and service/living-street/residential should be unchanged from default renderer -->
+			<group>
+				<filter tag="highway" value="road"/>
+				<filter tag="highway" value="unclassified"/>
+				<filter tag="highway" value="residential"/>
+				<groupFilter color="$residentialRoadColor" shadowRadius=":1.5" shadowColor="$shadowColorDay" cap="ROUND">
+					<filter minzoom="12" maxzoom="12" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter minzoom="13" maxzoom="13" strokeWidth="3" shadowColor="$shadowColorLowZoom"/>
+					<filter color_0="#000000">
+						<filter minzoom="14" maxzoom="14" strokeWidth="1:4"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="3:4"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth="5:4"/>
+						<filter minzoom="17" maxzoom="17" strokeWidth="7:5"/>
+						<filter minzoom="18" maxzoom="18" strokeWidth="10:8"/>
+						<filter minzoom="19" strokeWidth="12:9"/>
+						<apply_if additional="tunnel=yes" pathEffect="4_4" cap="BUTT"/>
+						<apply_if additional="covered=yes" pathEffect="7_2" cap="BUTT"/>
+						<!-- Bridges -->
+						<groupFilter layer="1" shadowRadius=":0" cap="SQUARE" cap_0="BUTT">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="1:8"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="3:8"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="5:8"/>
+							<filter minzoom="17" maxzoom="17" strokeWidth_0="7:9"/>
+							<filter minzoom="18" maxzoom="18" strokeWidth_0="10:12"/>
+							<filter minzoom="19" strokeWidth_0="12:13"/>
+							<groupFilter nightMode="true" color_0="#ffffff"/>
+						</groupFilter>
+					</filter>
+					<groupFilter nightMode="true" shadowColor="$shadowColorNight"/>
+
+				<!--    Use showAccess module from default renderer from now on:
+					<groupFilter minzoom="15" additional="access=no" color_3="$accessPrivateColor" strokeWidth_3="2:3" pathEffect_3="10_3"/> 
+					<groupFilter minzoom="15" additional="access=private" color_3="$accessPrivateColor" strokeWidth_3="2:3" pathEffect_3="10_3"/>
+				-->
+
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="service"/>
+				<filter tag="highway" value="living_street"/>
+				<filter tag="highway" value="pedestrian"/>
+				<filter tag="highway" value="services"/>
+				<filter tag="highway" value="rest_area"/>
+				<groupFilter color="$serviceRoadColor" shadowRadius=":1.5" shadowColor="$shadowColorDay" cap="ROUND">
+					<filter minzoom="13" maxzoom="13" strokeWidth="2" shadowColor="$shadowColorLowZoom"/>
+					<filter color_0="#000000">
+						<filter minzoom="14" maxzoom="14" strokeWidth="1:2"/>
+						<filter minzoom="15" maxzoom="15" strokeWidth="2:2"/>
+						<filter minzoom="16" maxzoom="16" strokeWidth="3:2"/>
+						<filter minzoom="17" maxzoom="17" strokeWidth="4:4"/>
+						<filter minzoom="18" maxzoom="18" strokeWidth="6:5"/>
+						<filter minzoom="19" strokeWidth="8:6"/>
+						<apply_if additional="tunnel=yes" pathEffect="4_4" cap="BUTT"/>
+						<apply_if additional="covered=yes" pathEffect="7_2" cap="BUTT"/>
+						<!-- Bridges -->
+						<groupFilter layer="1" shadowRadius=":0" cap="SQUARE" cap_0="BUTT">
+							<filter minzoom="14" maxzoom="14" strokeWidth_0="1:6"/>
+							<filter minzoom="15" maxzoom="15" strokeWidth_0="2:6"/>
+							<filter minzoom="16" maxzoom="16" strokeWidth_0="3:6"/>
+							<filter minzoom="17" maxzoom="17" strokeWidth_0="4:8"/>
+							<filter minzoom="18" maxzoom="18" strokeWidth_0="6:9"/>
+							<filter minzoom="19" strokeWidth_0="8:10"/>
+							<groupFilter nightMode="true" color_0="#ffffff"/>
+						</groupFilter>
+					</filter>
+					<groupFilter nightMode="true" shadowColor="$shadowColorNight"/>
+
+				<!--    Use showAccess module from default renderer from now on:
+					<groupFilter minzoom="15" additional="access=no" color_3="$accessPrivateColor" strokeWidth_3="1:2" pathEffect_3="10_3"/> 
+					<groupFilter minzoom="15" additional="access=private" color_3="$accessPrivateColor" strokeWidth_3="1:2" pathEffect_3="10_3"/>
+				-->
+
+				</groupFilter>
+
+				<!-- pedestrian roads are forbidden for cars and cyclists: show them like that in car and bicycle mode -->
+				<groupFilter baseAppMode="car" tag="highway" value="pedestrian" color="$accessPrivateColor"/>
+				<!-- <groupFilter baseAppMode="bicycle" tag="highway" value="pedestrian" color="$accessPrivateColor"/> -->
+
+			</group>
+			<apply_if minzoom="14" additional="construction=yes" cap="BUTT" shadowRadius="0" color="$constructionRoadColor" color_2="$constructionRoadColor2" strokeWidth_0="0" strokeWidth__1="0" pathEffect="$null" strokeWidth="8" strokeWidth_2="6" pathEffect_2="6_6"/>
+
+		</switch>
+
+		<group>
+			<group>
+				<filter tag="highway" value="track"/>
+				<!-- color_5 needed for tracks/paths etc. to make them visible over showSurfaces/showSurfaceGrade etc. -->
+				<groupFilter color_5="$trackColor" color="$null">
+					<!-- In ped mode with Alpine Hiking, make tracks solid to more clearly distinguish them from paths (forum feedback of 2012-12-06) -->
+					<filter alpineHiking="true" baseAppMode="pedestrian" pathEffect_5=""/>
+
+					<filter additional="tracktype=grade1" pathEffect_5=""/>
+					<filter additional="tracktype=grade2">
+						<filter minzoom="12" maxzoom="13" pathEffect_5="10_3"/>
+						<filter minzoom="14" pathEffect_5="15_4.5"/>
+					</filter>
+					<filter additional="tracktype=grade3">
+						<filter minzoom="12" maxzoom="13" pathEffect_5="5_3"/>
+						<filter minzoom="14" pathEffect_5="7.5_4.5"/>
+					</filter>
+					<filter additional="tracktype=grade4">
+						<filter minzoom="12" maxzoom="13" pathEffect_5="4_3_2_3"/>
+						<filter minzoom="14" pathEffect_5="6_4.5_3_4.5"/>
+					</filter>
+					<filter additional="tracktype=grade5">
+						<filter minzoom="12" maxzoom="13" pathEffect_5="2_3"/>
+						<filter minzoom="14" pathEffect_5="3_4.5"/>
+					</filter>
+					<filter>
+						<filter minzoom="12" maxzoom="13" pathEffect_5="4_2"/>
+						<filter minzoom="14" pathEffect_5="6_3"/>
+					</filter>
+					<groupFilter>
+						<filter baseAppMode="pedestrian">
+							<filter minzoom="12" maxzoom="12" strokeWidth_5="1.2"/>
+							<filter minzoom="13" maxzoom="13" strokeWidth_5="1.8"/>
+							<filter minzoom="14" strokeWidth_5="2.5"/>
+						</filter>
+						<filter baseAppMode="bicycle">
+							<filter minzoom="12" maxzoom="12" strokeWidth_5="1"/>
+							<filter minzoom="13" maxzoom="13" strokeWidth_5="2"/>
+							<filter minzoom="14" strokeWidth_5="2.8"/>
+						</filter>
+						<filter baseAppMode="car" minzoom="13" maxzoom="13" strokeWidth_5="0.7"/>
+						<filter minzoom="12" maxzoom="12" strokeWidth_5="0.7"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth_5="1"/>
+						<filter minzoom="14" maxzoom="14" strokeWidth_5="2"/>
+						<filter minzoom="15" strokeWidth_5="2.5"/>
+					</groupFilter>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="path"/>
+				<groupFilter alpineHiking="false" color_5="$pathColorDay" color="$null">
+					<filter additional="sac_scale=hiking" pathEffect_5="10_3"/>
+					<filter additional="sac_scale=mountain_hiking" pathEffect_5="5_5"/>
+					<filter additional="sac_scale=demanding_mountain_hiking" pathEffect_5="2_6"/>
+					<filter additional="sac_scale=alpine_hiking" pathEffect_5="2_6"/>
+					<filter additional="sac_scale=demanding_alpine_hiking" pathEffect_5="2_6"/>
+					<filter additional="sac_scale=difficult_alpine_hiking" pathEffect_5="2_6"/>
+					<filter pathEffect_5="4_2"/>
+					<groupFilter>
+						<filter baseAppMode="pedestrian">
+							<filter minzoom="12" maxzoom="12" strokeWidth_5="1.4"/>
+							<filter minzoom="13" maxzoom="13" strokeWidth_5="1.8"/>
+							<filter minzoom="14" strokeWidth_5="2.5"/>
+						</filter>
+						<filter baseAppMode="bicycle">
+							<filter minzoom="13" maxzoom="13" strokeWidth_5="0.7"/>
+							<filter minzoom="14" strokeWidth_5="1"/>
+						</filter>
+						<filter baseAppMode="car">
+							<filter minzoom="14" strokeWidth_5="1"/>
+						</filter>
+						<filter minzoom="12" maxzoom="12" strokeWidth_5="0.7"/>
+						<filter minzoom="13" strokeWidth_5="1"/>
+					</groupFilter>
+					<groupFilter nightMode="true" color_5="$pathColorNight"/>
+				</groupFilter>
+				<groupFilter alpineHiking="true" color="$null">
+					<filter additional="sac_scale=hiking" color_5="$sacScaleColorT1" pathEffect_5="10_3"/>
+					<filter additional="sac_scale=mountain_hiking" color_5="$sacScaleColorT2" pathEffect_5=""/>
+					<filter additional="sac_scale=demanding_mountain_hiking" color_5="$sacScaleColorT3" pathEffect_5="10_3"/>
+					<filter additional="sac_scale=alpine_hiking" color_5="$sacScaleColorT4" pathEffect_5=""/>
+					<filter additional="sac_scale=demanding_alpine_hiking" color_5="$sacScaleColorT5" pathEffect_5="10_3"/>
+					<filter additional="sac_scale=difficult_alpine_hiking" color_5="$sacScaleColorT6" pathEffect_5="3_3"/>
+					<filter color_5="$pathColorDay" pathEffect_5="4_2">
+						<filter nightMode="true" color_5="$pathColorNight"/>
+					</filter>
+					<groupFilter>
+						<filter minzoom="12" maxzoom="12" strokeWidth_5="1.4"/>
+						<filter minzoom="13" maxzoom="13" strokeWidth_5="1.8"/>
+						<filter minzoom="14" strokeWidth_5="2.5"/>
+					</groupFilter>
+				</groupFilter>
+			</group>
+
+			<!-- Blocks footway/steps/bridleway/cycleway should be unchanged from default renderer -->
+			<group>
+				<filter tag="highway" value="footway">
+					<case additional="footway=crossing" strokeWidth="0.1"/>
+				</filter>
+				<groupFilter color_5="$footwayColorDay" pathEffect_5="4_2" color="$null">
+					<filter baseAppMode="pedestrian" minzoom="14" strokeWidth_5="2"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth_5="0.5"/>
+					<filter minzoom="13" strokeWidth_5="1"/>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="steps"/>
+				<groupFilter color_5="$footwayColorDay" pathEffect_5="1_2" color="$null">
+					<filter baseAppMode="pedestrian" minzoom="14" strokeWidth_5="4" pathEffect_5="2_2"/>
+					<filter minzoom="14" strokeWidth_5="4"/>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="bridleway"/>
+				<groupFilter color_5="$bridlewayColorDay" pathEffect_5="4_2" color="$null">
+					<filter baseAppMode="pedestrian" minzoom="14" strokeWidth_5="2"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth_5="0.5"/>
+					<filter minzoom="13" strokeWidth_5="1"/>
+				</groupFilter>
+			</group>
+
+			<group>
+				<filter tag="highway" value="cycleway"/>
+				<groupFilter color_5="$cyclewayColorDay" pathEffect_5="4_2" color="$null">
+					<filter baseAppMode="bicycle" minzoom="14" strokeWidth_5="2"/>
+					<filter baseAppMode="pedestrian" minzoom="14" strokeWidth_5="2"/>
+					<filter minzoom="12" maxzoom="12" strokeWidth_5="0.5"/>
+					<filter minzoom="13" strokeWidth_5="1"/>
+				</groupFilter>
+			</group>
+
+		<!-- Alpine Hiking Mode: remove conflicting colors -->
+			<groupFilter alpineHiking="true">
+				<filter tag="highway" value="cycleway" color_5="$pathColorDay" pathEffect_5="4_2" color="$null">
+					<filter minzoom="12" maxzoom="12" strokeWidth_5="0.7"/>
+					<filter minzoom="13" strokeWidth_5="1"/>
+					<groupFilter nightMode="true" color_5="$pathColorNight"/>
+				</filter>
+				<filter tag="highway" value="footway" color_5="$pathColorDay" pathEffect_5="5_5" color="$null">
+					<filter minzoom="12" strokeWidth_5="1.2"/>
+					<groupFilter nightMode="true" color_5="$pathColorNight"/>
+				</filter>
+				<filter tag="highway" value="steps" color_5="$pathColorDay" pathEffect_5="2_2" color="$null">
+					<filter minzoom="14" strokeWidth_5="4"/>
+					<groupFilter nightMode="true" color_5="$pathColorNight"/>
+				</filter>
+			</groupFilter>
+		<!-- End Alpine Hiking Mode: remove conflicting colors -->
+
+			<!-- Bridges -->
+			<groupFilter layer="1">
+				<filter nightMode="true" minzoom="14" color__1="#ffffff" strokeWidth__1="4:2.5" color_0="#9F9F9F" strokeWidth_0="4:1"/>
+				<filter minzoom="14" color__1="#000000" strokeWidth__1="4:2.5" color_0="#ffffff" strokeWidth_0="4:1"/>
+			</groupFilter>
+			<!-- Tunnels -->
+			<groupFilter layer="-1">
+				<filter nightMode="true" minzoom="14" color__1="#ffffff" strokeWidth__1="4:2.5" pathEffect__1="3_3" color_0="#9F9F9F" strokeWidth_0="4:1"/>
+				<filter minzoom="14" color__1="#000000" strokeWidth__1="4:2.5" pathEffect__1="3_3" color_0="#ffffff" strokeWidth_0="4:1"/>
+			</groupFilter>
+		</group>
+
+		<filter tag="highway" value="ford" minzoom="14" color="#000000" strokeWidth="2"/>
+
+		<filter tag="highway" value="proposed" minzoom="12" maxzoom="13" color="$proposedRoadColor" strokeWidth="6" color_2="$proposedRoadColor2" strokeWidth_2="4" pathEffect_2="6_2"/>
+		<filter tag="highway" value="proposed" minzoom="14" color="$proposedRoadColor" strokeWidth="8" color_2="$proposedRoadColor2" strokeWidth_2="6" pathEffect_2="9_3"/>
+
+		<!-- cycleway=* unchanged from default renderer -->
+		<group>
+			<filter tag="cycleway" value="lane"/>
+			<filter tag="cycleway" value="track"/>
+			<filter tag="cycleway" value="opposite_lane"/>
+			<groupFilter baseAppMode="bicycle" minzoom="14" color="$cyclewayColorDay" strokeWidth="2" pathEffect="8_4"/>
+		</group>
+
+		<!-- countour lines -->
+<!--		<group>
+			<filter contourLines="11" tag="contour" value="elevation" minzoom="11" color="$contourLineColor" strokeWidth="1"/>
+			<filter contourLines="12" tag="contour" value="elevation" minzoom="12" color="$contourLineColor" strokeWidth="1"/>
+			<filter contourLines="13" tag="contour" value="elevation" minzoom="13" color="$contourLineColor" strokeWidth="1"/>
+			<filter contourLines="14" tag="contour" value="elevation" minzoom="14" color="$contourLineColor" strokeWidth="1"/>
+			<filter contourLines="15" tag="contour" value="elevation" minzoom="15" color="$contourLineColor" strokeWidth="1"/>
+			<filter contourLines="16" tag="contour" value="elevation" minzoom="16" color="$contourLineColor" strokeWidth="1"/>
+			<groupFilter>
+				<filter additional="contourtype=10m" color="$contourLineColor" strokeWidth="1"/>
+				<filter additional="contourtype=20m" color="$contourLineColor" strokeWidth="1"/>
+				<filter additional="contourtype=50m" minzoom="16" color="$contourLineColor50m" strokeWidth="1.5"/>
+				<filter additional="contourtype=100m" color="$contourLineColor50m" strokeWidth="2"/>
+			</groupFilter>
+		</group>
+-->
+
+		<!-- cycle routes -->
+<!--		<group>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="lcn_network" value="lcn" color="$cycleRoutelcnColor"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="rcn_network" value="rcn" color="$cycleRoutercnColor"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="ncn_network" value="ncn" color="$cycleRoutencnColor"/>
+			<filter baseAppMode="bicycle" showCycleRoutes="true" tag="icn_network" value="icn" color="$cycleRouteicnColor"/>
+			<groupFilter cap="BUTT">
+				<filter minzoom="12" maxzoom="13" strokeWidth="9"/>
+				<filter minzoom="14" maxzoom="14" strokeWidth="10"/>
+				<filter minzoom="15" maxzoom="15" strokeWidth="12"/>
+				<filter minzoom="16" maxzoom="16" strokeWidth="15"/>
+				<filter minzoom="17" maxzoom="17" strokeWidth="19"/>
+				<filter minzoom="18" strokeWidth="25"/>
+			</groupFilter>
+		</group>
+-->
+	</line>
+
+</renderingStyle>
