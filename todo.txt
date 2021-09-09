@@ -17,3 +17,4 @@ Rendu:
 - Nom des sentiers décalé du sentier 
 - OSMC décalé du sentier 
 - Afficher les symboles OSMC même si le sentier ne fait pas partie d’un itinéraire.
+
