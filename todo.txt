@@ -1,0 +1,19 @@
+Rendu Osmand 
+
+Dossier spécifique pour la randonnée qui contient les réglages:
+- Difficulté CAS [oui]
+- OSMC (Affichage des itinéraires si possible comme mpay.cz) [oui]
+- Réserve naturelle. [oui] 
+
+
+Rendu: 
+- Path/track comme IGN
+- Réserve naturelle, si on zoom alors on laisse que les symboles.  
+- Visibilité du sentier issue de Mapnik 
+- Difficulté du sentier issue de Mapnik
+- Rendu de la visibilité comme IGN ? (Point rond rose plus gros )
+- Supprimer la nature des track ainsi que leurs grades 
+- Couleur des forêts et autres surfaces ?
+- Nom des sentiers décalé du sentier 
+- OSMC décalé du sentier 
+- Afficher les symboles OSMC même si le sentier ne fait pas partie d’un itinéraire.
