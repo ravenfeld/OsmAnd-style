@@ -4986,20 +4986,20 @@
 						<case additional="osmand_highway_integrity=9" pathEffect_5="1_5"/>
 						<case additional="osmand_highway_integrity=10" pathEffect_5="1_5"/>
 					</apply_if>
-<!--					<apply_if surfaceIntegrity="false">
+          <apply_if surfaceIntegrity="false">
 						<apply_if additional="trail_visibility=bad">
-							<case maxzoom="14" pathEffect_5="2_6"/>
-							<case minzoom="15" pathEffect_5="2_9"/>
+							<case maxzoom="14" pathEffect_5="3_6"/>
+							<case minzoom="15" pathEffect_5="3_9"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=horrible">
-							<case maxzoom="14" pathEffect_5="2_9"/>
-							<case minzoom="15" pathEffect_5="2_13"/>
+							<case maxzoom="14" pathEffect_5="3_9"/>
+							<case minzoom="15" pathEffect_5="3_13"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=no">
-							<case maxzoom="14" pathEffect_5="2_13"/>
-							<case minzoom="15" pathEffect_5="2_19"/>
+							<case maxzoom="14" pathEffect_5="3_13"/>
+							<case minzoom="15" pathEffect_5="3_19"/>
 						</apply_if>
-					</apply_if>-->
+					</apply_if>
 				</switch>
 				<case minzoom="15" tag="highway" value="steps" strokeWidth="0.1">
 					<case lessDetailed="false" maxzoom="15">
