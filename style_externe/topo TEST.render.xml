@@ -514,11 +514,11 @@
 		<case nightMode="true" attrColorValue="#eeeeee"/>
 		<case attrColorValue="#000000"/>
 	</renderingAttribute>
-	<renderingConstant name="pathStrokeWidth" value="0.7:0.7"/>
+	<renderingConstant name="pathStrokeWidth" value="1.5"/>
 	<renderingConstant name="pathLowZoomStrokeWidth" value="0.5:0.5"/>
-	<renderingConstant name="pathPathEffect" value="2_2"/>
+	<renderingConstant name="pathPathEffect" value="10_3"/>
 	<renderingConstant name="pathLowZoomPathEffect" value=""/>
-	<renderingConstant name="pathPathEffectSurfaceIntegrity" value="4_3"/>
+	<renderingConstant name="pathPathEffectSurfaceIntegrity" value="10_3"/>
 	<renderingAttribute name="cyclewayColor">
 		<case nightMode="true" attrColorValue="#8E8EE8"/>
 		<case attrColorValue="#0000ff"/>
@@ -4956,11 +4956,11 @@
 					</switch>
 					<apply>
 						<switch alpineHiking="false" minzoom="12" cap_3="BUTT">
-							<case additional="sac_scale=mountain_hiking" color_3="$sacScaleColorT2" pathEffect_3=""/>
-							<case additional="sac_scale=demanding_mountain_hiking" color_3="$sacScaleColorT3" pathEffect_3="10_3"/>
-							<case additional="sac_scale=alpine_hiking" color_3="$sacScaleColorT4" pathEffect_3=""/>
-							<case additional="sac_scale=demanding_alpine_hiking" color_3="$sacScaleColorT5" pathEffect_3="10_3"/>
-							<case additional="sac_scale=difficult_alpine_hiking" color_3="$sacScaleColorT6" pathEffect_3="3_3"/>
+							<case additional="sac_scale=mountain_hiking" color_5="$sacScaleColorT2" pathEffect_5=""/>
+							<case additional="sac_scale=demanding_mountain_hiking" color_5="$sacScaleColorT3" pathEffect_5="10_3"/>
+							<case additional="sac_scale=alpine_hiking" color_5="$sacScaleColorT4" pathEffect_5=""/>
+							<case additional="sac_scale=demanding_alpine_hiking" color_5="$sacScaleColorT5" pathEffect_5="10_3"/>
+							<case additional="sac_scale=difficult_alpine_hiking" color_5="$sacScaleColorT6" pathEffect_5="3_3"/>
 							<apply_if maxzoom="14" strokeWidth_3="2:2" strokeWidth_4="1"/>
 							<apply_if minzoom="15" maxzoom="17" strokeWidth_3="3:3" strokeWidth_4="1.5:1.5"/>
 							<apply_if minzoom="18" strokeWidth_3="4:4" strokeWidth_4="1.5:1.5"/>
@@ -4986,20 +4986,20 @@
 						<case additional="osmand_highway_integrity=9" pathEffect_5="1_5"/>
 						<case additional="osmand_highway_integrity=10" pathEffect_5="1_5"/>
 					</apply_if>
-<!--					<apply_if surfaceIntegrity="false">
+          <apply_if surfaceIntegrity="false">
 						<apply_if additional="trail_visibility=bad">
-							<case maxzoom="14" pathEffect_5="2_6"/>
-							<case minzoom="15" pathEffect_5="2_9"/>
+							<case maxzoom="14" pathEffect_5="3_6"/>
+							<case minzoom="15" pathEffect_5="3_9"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=horrible">
-							<case maxzoom="14" pathEffect_5="2_9"/>
-							<case minzoom="15" pathEffect_5="2_13"/>
+							<case maxzoom="14" pathEffect_5="3_9"/>
+							<case minzoom="15" pathEffect_5="3_13"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=no">
-							<case maxzoom="14" pathEffect_5="2_13"/>
-							<case minzoom="15" pathEffect_5="2_19"/>
+							<case maxzoom="14" pathEffect_5="3_13"/>
+							<case minzoom="15" pathEffect_5="3_19"/>
 						</apply_if>
-					</apply_if>-->
+					</apply_if>
 				</switch>
 				<case minzoom="15" tag="highway" value="steps" strokeWidth="0.1">
 					<case lessDetailed="false" maxzoom="15">
