@@ -4955,7 +4955,7 @@
 						</switch>
 					</switch>
 					<apply>
-						<switch alpineHiking="true" minzoom="12" cap_3="BUTT">
+						<switch alpineHiking="false" minzoom="12" cap_3="BUTT">
 							<case additional="sac_scale=mountain_hiking" color_3="$sacScaleColorT2" pathEffect_3=""/>
 							<case additional="sac_scale=demanding_mountain_hiking" color_3="$sacScaleColorT3" pathEffect_3="10_3"/>
 							<case additional="sac_scale=alpine_hiking" color_3="$sacScaleColorT4" pathEffect_3=""/>
@@ -5934,7 +5934,7 @@
 
 		<switch minzoom="4">
 			<case tag="admin_level" value="3" pathEffect="6_1"/>
-			<case noAdminboundaries="false" tag="admin_level" value="4" pathEffect="6_1"/>
+			<case noAdminboundaries="true" tag="admin_level" value="4" pathEffect="6_1"/>
 			<apply color="$boundaryColorOuter" color_0="$boundaryColorInner">
 				<case engine_v1="true" maxzoom="5" strokeWidth="1" strokeWidth_0="0.2"/>
 				<case engine_v1="false" maxzoom="5" strokeWidth="0.7" strokeWidth_0="0.1"/>
@@ -5944,7 +5944,7 @@
 			</apply>
 		</switch>
 
-		<switch noAdminboundaries="false">
+		<switch noAdminboundaries="true">
 			<switch>
 				<case tag="admin_level" value="5" minzoom="11" pathEffect="6_3_2_3_2_3" pathEffect_0="6_3_2_3_2_3"/>
 				<case tag="admin_level" value="6" minzoom="11" pathEffect="6_3_2_3" pathEffect_0="6_3_2_3"/>
