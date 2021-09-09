@@ -18,3 +18,4 @@ Rendu:
 - OSMC décalé du sentier 
 - Afficher les symboles OSMC même si le sentier ne fait pas partie d’un itinéraire.
 test 2
+test 3
