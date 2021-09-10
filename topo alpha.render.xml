@@ -348,7 +348,7 @@
 	<renderingAttribute name="unclassifiedRoadColor">
 		<case surfaceIntegrity="true" minzoom="12" attrColorValue="$highwaySurfaceIntegrityColor"/>
 		<case additional="bridge=yes" attrColorValue="$bridgeColor"/>
-		<case attrColorValue="#FFDDB2">
+		<case attrColorValue="#ffffff">
 			<apply_if additional="tunnel=yes" attrColorValue="#FFEFDB"/>
 			<apply_if additional="covered=yes" attrColorValue="#FFEFDB"/>
 		</case>
