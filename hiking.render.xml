@@ -564,7 +564,9 @@
 		<switch tag="landuse" value="meadow">
 			<case color="#d5eaaf"/>
 		</switch>
-
+		<switch tag="landuse" value="forest">
+			<case color="#cbddb2"/>
+		</switch>
 	</polygon>
 
 	<line>
