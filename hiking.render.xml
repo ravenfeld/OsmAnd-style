@@ -536,7 +536,35 @@
 	<point>
 	</point>
 
+	<!--
+	zoom:
+		1 => 
+		2 => 2000km
+		3 => 1000km
+		4 => 500km
+		5 => 200km
+		6 => 200km
+		7 => 100km
+		8 => 50km
+		9 => 20km
+		10 => 10km
+		11 => 5km
+		12 => 2km
+		13 => 1km
+		14 => 500m
+		15 => 200m
+		16 => 100m
+		17 => 50m
+		18 => 20m
+		19 => 10m
+		20 => 5m	
+-->
 	<polygon>
+
+		<switch tag="landuse" value="meadow">
+			<case color="#d5eaaf"/>
+		</switch>
+
 	</polygon>
 
 	<line>
