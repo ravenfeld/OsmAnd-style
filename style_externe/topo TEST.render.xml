@@ -4964,7 +4964,6 @@
 							<apply_if maxzoom="14" strokeWidth_3="2:2" strokeWidth_4="1"/>
 							<apply_if minzoom="15" maxzoom="17" strokeWidth_3="3:3" strokeWidth_4="1.5:1.5"/>
 							<apply_if minzoom="18" strokeWidth_3="4:4" strokeWidth_4="1.5:1.5"/>
-							<apply color_4="$trackSubstrateColor"/> <!-- Substrate -->
 						</switch>
 					</apply>
 					<apply_if additional="winter_road=yes">
