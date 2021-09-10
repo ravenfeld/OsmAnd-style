@@ -8,6 +8,7 @@
 	<renderingProperty attr="contourLines" name="Show contour lines" description="Select minimum zoom level to display in map if available. Separate contour file may be needed." type="string" possibleValues="disabled,16,15,14,13,12,11" defaultValueDescription="default13" category="details"/>
 	<renderingProperty attr="noPolygons" name="Hide polygons" description="Make all areal land features on map transparent" type="boolean" possibleValues="" category="hide"/>
 	<renderingProperty attr="hideAccess" name="Hide access restrictions" description="Hide access type" type="boolean" possibleValues="" category="hide"/>
+	<renderingProperty attr="hideBuildings" name="Hide buildings" description="Hide buildings" type="boolean" possibleValues="" category="hide"/>
 
 	<!--Attribute-->
 	<renderingAttribute name="defaultColor">
@@ -560,20 +561,23 @@
 		20 => 5m	
 -->
 	<polygon>
-
-		<switch tag="landuse" value="meadow">
-			<case color="#d5eaaf"/>
-		</switch>
-		<switch tag="landuse" value="forest">
-			<case color="#cbddb2"/>
-		</switch>
-		<switch tag="building" value="">
-			<case maxzoom="16" strokeWidth_2="1"/>
-			<case minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
-			<case minzoom="20" strokeWidth_2="2" />
-			<apply color="#e7e5e3" color_2="#dcd9d3"/>
+		<switch noPolygons="false">
+			<switch tag="landuse" value="meadow">
+				<case color="#d5eaaf"/>
+			</switch>
+			<switch tag="landuse" value="forest">
+				<case color="#cbddb2"/>
+			</switch>
 		</switch>
 
+		<switch hideBuildings="false">
+			<switch tag="building" value="">
+				<case maxzoom="16" strokeWidth_2="1"/>
+				<case minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
+				<case minzoom="20" strokeWidth_2="2" />
+				<apply color="#e7e5e3" color_2="#dcd9d3"/>
+			</switch>
+		</switch>
 	</polygon>
 
 	<line>
