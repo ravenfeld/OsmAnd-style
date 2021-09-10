@@ -567,6 +567,13 @@
 		<switch tag="landuse" value="forest">
 			<case color="#cbddb2"/>
 		</switch>
+		<switch tag="building" value="">
+			<case maxzoom="16" strokeWidth_2="1"/>
+			<case minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
+			<case minzoom="20" strokeWidth_2="2" />
+			<apply color="#e7e5e3" color_2="#dcd9d3"/>
+		</switch>
+
 	</polygon>
 
 	<line>
