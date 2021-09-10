@@ -5082,8 +5082,8 @@
 						<case additional="bicycle=yes"/>
 					</switch>
 					<switch>
-						<case additional="access=private" color_5="$accessPrivateColor"/>
-						<case additional="access=no" color_5="$accessPrivateColor"/>
+						<case additional="access=private" color_5="$accessPrivateColor" color_0="#ff3333"/>
+						<case additional="access=no" color_5="$accessPrivateColor" color_0="#ff3333"/>
 					</switch>
 				</switch>
 			</apply>
