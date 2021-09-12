@@ -23,14 +23,8 @@
 		<case attrColorValue="#7754B265"/>
 	</renderingAttribute>
 
-	<renderingAttribute name="natureReserveColor0">
-		<case nightMode="true" attrColorValue="#2209821F"/>
-		<case attrColorValue="#3354B265"/>
-	</renderingAttribute>
 	<!--Constant-->
 	<renderingConstant name="null" value="#00000000"/>
-	<renderingConstant name="leisureNatureReserveShaderDay" value="nr2"/>
-	<renderingConstant name="leisureNatureReserveShaderNight" value="nr2_night"/>
 
 	<order>
 		<!-- Point -->
@@ -590,16 +584,16 @@
 			</switch>
 		</switch>
 
-		<switch noNatureReserveBoundaries="false">
-			<case minzoom="6" tag="leisure" value="nature_reserve" shader="$leisureNatureReserveShaderDay" color_2="$natureReserveStrokeColor">
-				<apply_if nightMode="true" shader="$leisureNatureReserveShaderNight"/>
-				<apply_if hideNatureReserve="false" color_0="$natureReserveColor0"/>
+		<switch hideNatureReserve="false">
+			<case minzoom="6" tag="leisure" value="nature_reserve">
+				<apply_if nightMode="true" shader="nr2_night"/>
+				<apply shader="nr2" color_2="#7754B265" />
 			</case>
-			<case minzoom="8" tag="boundary" value="national_park" shader="$leisureNatureReserveShaderDay" color_2="#4400ae3d">
-				<apply_if nightMode="true" shader="$leisureNatureReserveShaderNight"/>
-				<apply_if hideNatureReserve="false" color_0="$natureReserveColor0"/>
+			<case minzoom="8" tag="boundary" value="national_park">
+				<apply_if nightMode="true" shader="nr2_night"/>
+				<apply shader="nr2" color_2="#4400ae3d" />
 			</case>
-			<apply color="$null" strokeWidth_2="2:2"/>
+			<apply color_0="#3354B265" strokeWidth_2="2:2"/>
 			<apply_if maxzoom="11" strokeWidth_2="1:1"/>
 			<apply_if minzoom="12" maxzoom="13" strokeWidth_2="2:2"/>
 			<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
