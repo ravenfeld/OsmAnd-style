@@ -568,23 +568,22 @@
 -->
 	<polygon>
 		<switch noPolygons="false">
-			<switch tag="landuse" value="meadow">
-				<case color="#d5eaaf"/>
-			</switch>
-			<switch tag="landuse" value="forest">
-				<case color="#cbddb2"/>
-			</switch>
+			<case tag="landuse" value="meadow">
+				<apply color="#d5eaaf"/>
+			</case>
+			<case tag="landuse" value="forest">
+				<apply color="#cbddb2"/>
+			</case>
 		</switch>
 
 		<switch hideBuildings="false">
 			<switch tag="building" value="">
-				<case maxzoom="16" strokeWidth_2="1"/>
-				<case minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
-				<case minzoom="20" strokeWidth_2="2" />
+				<apply_if maxzoom="16" strokeWidth_2="1"/>
+				<apply_if minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
+				<apply_if minzoom="20" strokeWidth_2="2" />
 				<apply color="#e7e5e3" color_2="#dcd9d3"/>
 			</switch>
 		</switch>
-
 
 		<switch>
 			<case minzoom="6" tag="leisure" value="nature_reserve">
@@ -614,8 +613,72 @@
 	</polygon>
 
 	<line>
-		<switch tag="highway" value="path">
-			<case strokeWidth_2="3" color="#000000" pathEffect="16_4"/>
+		<switch>
+			<switch>
+				<case tag="highway" value="motorway"/>
+				<case tag="highway" value="motorway_link"/>
+				<case tag="highway" value="trunk"/>
+				<case tag="highway" value="trunk_link"/>
+				<case tag="highway" value="primary"/>
+				<case tag="highway" value="primary_link"/>
+				<case tag="highway" value="secondary"/>
+				<case tag="highway" value="secondary_link"/>
+				<case tag="highway" value="tertiary"/>
+				<case tag="highway" value="tertiary_link"/>
+				<case tag="highway" value="unclassified"/>
+				<case tag="highway" value="residential"/>
+				<case tag="highway" value="living_street"/>
+				<case tag="highway" value="service"/>
+				<case tag="highway" value="pedestrian" />
+				<case tag="highway" value="bus_guideway" />
+				<case tag="highway" value="escape"/>
+				<case tag="highway" value="raceway"/>
+				<case tag="highway" value="busway"/>
+				<case tag="highway" value="footway"/>
+				<case tag="highway" value="bridleway"/>
+				<case tag="highway" value="steps"/>
+				<case tag="highway" value="corridor"/>
+				<case tag="highway" value="cycleway"/>
+				<case tag="highway" value="via_ferrata"/>
+				<apply strokeWidth="2" color="#000000" />
+			</switch>
+
+			<switch tag="highway" value="track">
+				<switch>
+					<case additional="tracktype=grade3"/>
+					<case additional="tracktype=grade4"/>
+					<case additional="tracktype=grade5"/>
+					<apply>
+						<apply strokeWidth="3" color="#000000"/>
+						<apply_if additional="access=private" color="#ad0b0b"/>
+						<apply_if additional="access=no" color="#ad0b0b"/>
+					</apply>
+				</switch>
+				<switch>
+					<case additional="tracktype=grade1"/>
+					<case additional="tracktype=grade2"/>
+					<case/>
+					<apply>
+						<case maxzoom="12" strokeWidth="0.3" strokeWidth_0="1" pathEffect_0="4_1"/>
+						<case maxzoom="13" strokeWidth="0.5" strokeWidth_0="1.5" pathEffect_0="8_2"/>
+						<case maxzoom="14" strokeWidth="2" strokeWidth_0="4" pathEffect_0="12_3"/>
+						<case maxzoom="15" strokeWidth="2.5" strokeWidth_0="5.5" pathEffect_0="15_4"/>
+						<case maxzoom="16" strokeWidth="3" strokeWidth_0="6" pathEffect_0="17_5"/>
+						<case maxzoom="17" strokeWidth="3.5" strokeWidth_0="6.5" pathEffect_0="20_6"/>
+						<case maxzoom="18" strokeWidth="4" strokeWidth_0="7" pathEffect_0="25_7"/>
+						<case maxzoom="19" strokeWidth="5" strokeWidth_0="8" pathEffect_0="30_8"/>
+						<case maxzoom="20" strokeWidth="9" strokeWidth_0="12" pathEffect_0="35_9"/>
+						<apply color="#ffffff" color_0="#000000"/>
+						<apply_if additional="access=private" color_0="#ad0b0b"/>
+						<apply_if additional="access=no" color_0="#ad0b0b"/>
+					</apply>
+				</switch>
+
+			</switch>
+			<case tag="highway" value="path">
+				<apply strokeWidth="3" color="#000000" pathEffect="16_4" />
+			</case>
+
 		</switch>
 	</line>
 </renderingStyle>
