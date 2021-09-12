@@ -577,12 +577,12 @@
 		</switch>
 
 		<switch hideBuildings="false">
-			<switch tag="building" value="">
+			<case tag="building" value="">
 				<apply_if maxzoom="16" strokeWidth_2="1"/>
 				<apply_if minzoom="16" maxzoom="20" strokeWidth_2="1.5"/>
 				<apply_if minzoom="20" strokeWidth_2="2" />
 				<apply color="#e7e5e3" color_2="#dcd9d3"/>
-			</switch>
+			</case>
 		</switch>
 
 		<switch>
