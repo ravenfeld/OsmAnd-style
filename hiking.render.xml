@@ -4,7 +4,7 @@
 	<!--Property-->
 	<renderingProperty attr="appMode" name="Rendering mode" description="Map optimization for respective User Profile" type="string" possibleValues="browse map,car,bicycle,pedestrian"/>
 	<renderingProperty attr="hikingRoutesOSMC" name="Hiking symbol overlay" description="Render symbols of OSMC hiking traces" type="string" possibleValues="walkingRoutesOSMC,walkingRoutesScopeOSMC,walkingRoutesOSMCNodes" defaultValueDescription="disabled" category="routes"/>
-	<renderingProperty attr="alpineHiking" name="Cahcher le truc" description="Chacher le truc" type="boolean" possibleValues="" category="routes"/>
+	<renderingProperty attr="alpineHiking" name="Alpine hiking view" description="Render paths according to SAC scale" type="boolean" possibleValues="" category="routes"/>
 	<renderingProperty attr="contourLines" name="Show contour lines" description="Select minimum zoom level to display in map if available. Separate contour file may be needed." type="string" possibleValues="disabled,16,15,14,13,12,11" defaultValueDescription="default13" category="details"/>
 	<renderingProperty attr="noPolygons" name="Hide polygons" description="Make all areal land features on map transparent" type="boolean" possibleValues="" category="hide"/>
 	<renderingProperty attr="hideAccess" name="Hide access restrictions" description="Hide access type" type="boolean" possibleValues="" category="hide"/>
@@ -643,48 +643,59 @@
 				<apply strokeWidth="2" color="#000000" />
 			</switch>
 
-			<switch tag="highway" value="track">
-				<switch>
-					<case additional="tracktype=grade3"/>
-					<case additional="tracktype=grade4"/>
-					<case additional="tracktype=grade5"/>
-					<apply>
-						<apply strokeWidth="3" color="#000000"/>
-						<apply_if additional="access=private" color="#ad0b0b"/>
-						<apply_if additional="access=no" color="#ad0b0b"/>
-					</apply>
+			<switch>
+				<switch tag="highway" value="track">
+					<switch>
+						<case additional="tracktype=grade3"/>
+						<case additional="tracktype=grade4"/>
+						<case additional="tracktype=grade5"/>
+						<apply>
+							<apply strokeWidth="3" color="#000000"/>
+							<apply_if additional="access=private" color="#ad0b0b"/>
+							<apply_if additional="access=no" color="#ad0b0b"/>
+						</apply>
+					</switch>
+					<switch>
+						<case additional="tracktype=grade1"/>
+						<case additional="tracktype=grade2"/>
+						<case/>
+						<apply>
+							<case maxzoom="12" strokeWidth_2="0.3" strokeWidth="1" pathEffect="4_1"/>
+							<case maxzoom="13" strokeWidth_2="0.5" strokeWidth="1.5" pathEffect="8_2"/>
+							<case maxzoom="14" strokeWidth_2="2" strokeWidth="4" pathEffect="12_3"/>
+							<case maxzoom="15" strokeWidth_2="2.5" strokeWidth="5.5" pathEffect="15_4"/>
+							<case maxzoom="16" strokeWidth_2="3" strokeWidth="6" pathEffect="17_5"/>
+							<case maxzoom="17" strokeWidth_2="3.5" strokeWidth="6.5" pathEffect="20_6"/>
+							<case maxzoom="18" strokeWidth_2="4" strokeWidth="7" pathEffect="25_7"/>
+							<case maxzoom="19" strokeWidth_2="5" strokeWidth="8" pathEffect="30_8"/>
+							<case maxzoom="20" strokeWidth_2="9" strokeWidth="12" pathEffect="35_9"/>
+							<apply color_2="#ffffff" color="#000000"/>
+							<apply_if additional="access=private" color="#ad0b0b"/>
+							<apply_if additional="access=no" color="#ad0b0b"/>
+						</apply>
+					</switch>
 				</switch>
-				<switch>
-					<case additional="tracktype=grade1"/>
-					<case additional="tracktype=grade2"/>
+				<switch tag="highway" value="path">
 					<case/>
-					<apply>
-						<case maxzoom="12" strokeWidth="0.3" strokeWidth_0="1" pathEffect_0="4_1"/>
-						<case maxzoom="13" strokeWidth="0.5" strokeWidth_0="1.5" pathEffect_0="8_2"/>
-						<case maxzoom="14" strokeWidth="2" strokeWidth_0="4" pathEffect_0="12_3"/>
-						<case maxzoom="15" strokeWidth="2.5" strokeWidth_0="5.5" pathEffect_0="15_4"/>
-						<case maxzoom="16" strokeWidth="3" strokeWidth_0="6" pathEffect_0="17_5"/>
-						<case maxzoom="17" strokeWidth="3.5" strokeWidth_0="6.5" pathEffect_0="20_6"/>
-						<case maxzoom="18" strokeWidth="4" strokeWidth_0="7" pathEffect_0="25_7"/>
-						<case maxzoom="19" strokeWidth="5" strokeWidth_0="8" pathEffect_0="30_8"/>
-						<case maxzoom="20" strokeWidth="9" strokeWidth_0="12" pathEffect_0="35_9"/>
-						<apply color="#ffffff" color_0="#000000"/>
-						<apply_if additional="access=private" color_0="#ad0b0b"/>
-						<apply_if additional="access=no" color_0="#ad0b0b"/>
-					</apply>
+					<apply strokeWidth="3" color="#000000" pathEffect="16_4" />
+					<apply_if additional="trail_visibility=intermediate" pathEffect="8_4"/>
+					<apply_if additional="trail_visibility=bad" pathEffect="4_4"/>
+					<apply_if additional="trail_visibility=horrible" pathEffect="2_8"/>
+					<apply_if additional="trail_visibility=no" pathEffect="2_16"/>
+					<apply_if additional="access=private" color="#ad0b0b"/>
+					<apply_if additional="access=no" color="#ad0b0b"/>
 				</switch>
-
+				<apply>
+					<switch alpineHiking="true">
+						<case additional="sac_scale=hiking" color="#FFFF00" />
+						<case additional="sac_scale=mountain_hiking" color="#e23cad" />
+						<case additional="sac_scale=demanding_mountain_hiking" color="#e23cad" />
+						<case additional="sac_scale=alpine_hiking" color="#e23cad" />
+						<case additional="sac_scale=demanding_alpine_hiking" color="#6000ff" />
+						<case additional="sac_scale=difficult_alpine_hiking" color="#6000ff" />
+					</switch>
+				</apply>
 			</switch>
-			<case tag="highway" value="path">
-				<apply strokeWidth="3" color="#000000" pathEffect="16_4" />
-				<apply_if additional="trail_visibility=intermediate" pathEffect="8_4"/>
-				<apply_if additional="trail_visibility=bad" pathEffect="4_4"/>
-				<apply_if additional="trail_visibility=horrible" pathEffect="2_8"/>
-				<apply_if additional="trail_visibility=no" pathEffect="2_16"/>
-				<apply_if additional="access=private" color="#ad0b0b"/>
-				<apply_if additional="access=no" color="#ad0b0b"/>
-			</case>
-
 		</switch>
 	</line>
 </renderingStyle>
