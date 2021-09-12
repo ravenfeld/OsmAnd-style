@@ -5133,9 +5133,37 @@
 						<case additional="bicycle=yes"/>
 					</switch>
 					<switch>
-						<case additional="access=private" color_5="$accessPrivateColor" color_0="#ff3333" color="#ad0b0b"/>
-						<case additional="access=no" color_5="$accessPrivateColor" color_0="#ff3333" color="#ad0b0b"/>
+						<switch additional="tracktype=grade1">
+							<case additional="access=private"/>
+							<case additional="access=no"/>
+							<apply color_5="$accessPrivateColor" color_0="#ff3333"/>
+						</switch>
+						<switch additional="tracktype=grade2">
+							<case additional="access=private"/>
+							<case additional="access=no"/>
+							<apply color_5="$accessPrivateColor" color_0="#ff3333"/>
+						</switch>
+
+						<switch additional="tracktype=grade3">
+							<case additional="access=private"/>
+							<case additional="access=no"/>
+							<apply color_5="$accessPrivateColor" color="#ff3333"/>
+						</switch>
+
+						<switch additional="tracktype=grade4">
+							<case additional="access=private"/>
+							<case additional="access=no"/>
+							<apply color_5="$accessPrivateColor" color="#ff3333"/>
+						</switch>
+
+						<switch additional="tracktype=grade5">
+							<case additional="access=private"/>
+							<case additional="access=no"/>
+							<apply color_5="$accessPrivateColor" color="#ff3333"/>
+						</switch>
+
 					</switch>
+
 				</switch>
 			</apply>
 			<apply_if noPolygons="true" color_4="$trackSubstrateColor"/>
