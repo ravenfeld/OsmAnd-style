@@ -26,6 +26,7 @@
 	<renderingProperty attr="contourColorScheme" name="Contour lines color scheme" description="Contour lines color scheme" type="string" possibleValues="white,yellow,green,light_brown,brown,dark_brown,red" defaultValueDescription="default"/>
 	<renderingProperty attr="contourWidth" name="Contour lines width" description="Contour lines width" type="string" possibleValues="thin,medium,thick" defaultValueDescription="default"/>
 	<renderingProperty attr="contourDensity" name="Contour lines density" description="Contour lines density" type="string" possibleValues="low,medium_w,high" defaultValueDescription="default"/>
+	<renderingProperty attr="hideNatureReserve" name="Hide Nature Reserve" description="Hide Nature Reserve" type="boolean" possibleValues="" category="hide"/>
 
 	<renderingProperty attr="legend" name="Legend" type="boolean" possibleValues="" category="ui_hidden"/>
 
@@ -4073,12 +4074,6 @@
 					</case>
 
 					<switch color="$null" color_2="#7754B265">
-						<switch minzoom="6">
-							<case tag="leisure" value="nature_reserve"/>
-							<case tag="boundary" value="national_park"/>
-							<apply_if maxzoom="13" strokeWidth_2="2:2"/>
-							<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
-						</switch>
 						<switch minzoom="8">
 							<case tag="boundary" value="protected_area"/>
 							<apply_if maxzoom="13" strokeWidth_2="2:2" pathEffect_2="10_5"/>
@@ -4344,7 +4339,20 @@
 			</apply>
 			<apply color="$null"/>
 		</switch>
-
+		<switch hideNatureReserve="false">
+			<case minzoom="6" tag="leisure" value="nature_reserve">
+				<apply_if nightMode="true" shader="nr2_night"/>
+				<apply shader="nr2" color_2="#7754B265" />
+			</case>
+			<case minzoom="8" tag="boundary" value="national_park">
+				<apply_if nightMode="true" shader="nr2_night"/>
+				<apply shader="nr2" color_2="#4400ae3d" />
+			</case>
+			<apply color_0="#3354B265" strokeWidth_2="2:2"/>
+			<apply_if maxzoom="11" strokeWidth_2="1:1"/>
+			<apply_if minzoom="12" maxzoom="13" strokeWidth_2="2:2"/>
+			<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
+		</switch>
 	</polygon>
 
 	<line>
@@ -4885,7 +4893,7 @@
 									<case additional="tracktype=grade2"/>
 									<!-- <case additional="tracktype=grade3"/>-->
 									<apply minzoom="12">
-									  <!--<case maxzoom="11" strokeWidth="0.2" strokeWidth_0="0.8:0.3" pathEffect_0="4_1"/>-->
+										<!--<case maxzoom="11" strokeWidth="0.2" strokeWidth_0="0.8:0.3" pathEffect_0="4_1"/>-->
 										<case maxzoom="12" strokeWidth="0.3" strokeWidth_0="1:0.5" pathEffect_0="4_1"/>
 										<case maxzoom="13" strokeWidth="0.5" strokeWidth_0="1.5:0.8" pathEffect_0="8_2"/>
 										<case maxzoom="14" strokeWidth="2:1.33" strokeWidth_0="4:1" pathEffect_0="12_3"/>
@@ -4914,7 +4922,7 @@
 										<case minzoom="18" strokeWidth="2:2"/>
 										<apply color="#000000"/>
 										<apply/>
-                  <case/>
+										<case/>
 									</apply>
 								</switch>
 							</apply_if>
