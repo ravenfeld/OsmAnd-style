@@ -677,6 +677,12 @@
 			</switch>
 			<case tag="highway" value="path">
 				<apply strokeWidth="3" color="#000000" pathEffect="16_4" />
+				<apply_if additional="trail_visibility=intermediate" pathEffect="8_4"/>
+				<apply_if additional="trail_visibility=bad" pathEffect="4_4"/>
+				<apply_if additional="trail_visibility=horrible" pathEffect="2_8"/>
+				<apply_if additional="trail_visibility=no" pathEffect="2_16"/>
+				<apply_if additional="access=private" color="#ad0b0b"/>
+				<apply_if additional="access=no" color="#ad0b0b"/>
 			</case>
 
 		</switch>
