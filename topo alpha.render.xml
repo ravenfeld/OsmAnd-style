@@ -5022,16 +5022,25 @@
 					</apply_if>
 					<apply_if surfaceIntegrity="false">
 						<apply_if additional="trail_visibility=bad">
-							<case maxzoom="14" pathEffect_5="4_7"/>
-							<case minzoom="15" pathEffect_5="4_10"/>
+							<case maxzoom="14" pathEffect_5="5_7"/>
+							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_10"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_10"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_10"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_10"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=horrible">
-							<case maxzoom="14" pathEffect_5="4_10"/>
-							<case minzoom="15" pathEffect_5="4_14"/>
+							<case maxzoom="14" pathEffect_5="5_10"/>
+							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_14"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_14"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_14"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_14"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=no">
-							<case maxzoom="14" pathEffect_5="4_14"/>
-							<case minzoom="15" pathEffect_5="4_20"/>
+							<case maxzoom="14" pathEffect_5="5_14"/>
+							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_20"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_20"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_20"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_20"/>
 						</apply_if>
 					</apply_if>
 				</switch>
