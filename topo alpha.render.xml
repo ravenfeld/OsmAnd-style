@@ -26,7 +26,8 @@
 	<renderingProperty attr="contourColorScheme" name="Contour lines color scheme" description="Contour lines color scheme" type="string" possibleValues="white,yellow,green,light_brown,brown,dark_brown,red" defaultValueDescription="default"/>
 	<renderingProperty attr="contourWidth" name="Contour lines width" description="Contour lines width" type="string" possibleValues="thin,medium,thick" defaultValueDescription="default"/>
 	<renderingProperty attr="contourDensity" name="Contour lines density" description="Contour lines density" type="string" possibleValues="low,medium_w,high" defaultValueDescription="default"/>
-	<renderingProperty attr="hideNatureReserve" name="Hide Nature Reserve" description="Hide Nature Reserve" type="boolean" possibleValues="" category="hide"/>
+	<renderingProperty attr="hideNatureReserveSymbol" name="Hide Nature Reserve Symbol" description="Hide Nature Reserve Symbol" type="boolean" possibleValues="" category="hide"/>
+	<renderingProperty attr="hideNatureReserveColor" name="Hide Nature Reserve Color" description="Hide Nature Reserve Color" type="boolean" possibleValues="" category="hide"/>
 
 	<renderingProperty attr="legend" name="Legend" type="boolean" possibleValues="" category="ui_hidden"/>
 
@@ -4339,19 +4340,29 @@
 			</apply>
 			<apply color="$null"/>
 		</switch>
-		<switch hideNatureReserve="false">
+		<switch>
 			<case minzoom="6" tag="leisure" value="nature_reserve">
-				<apply_if nightMode="true" shader="nr2_night"/>
-				<apply shader="nr2" color_2="#7754B265" />
+				<case hideNatureReserveSymbol="false">
+					<apply_if nightMode="true" shader="nr2_night"/>
+					<apply shader="nr2"/>
+				</case>
+				<apply_if hideNatureReserveColor="false" color_0="#3354B265"/>
+				<apply color_2="#7754B265" />
+				<apply_if maxzoom="11" strokeWidth_2="1:1"/>
+				<apply_if minzoom="12" maxzoom="13" strokeWidth_2="2:2"/>
+				<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
 			</case>
 			<case minzoom="8" tag="boundary" value="national_park">
-				<apply_if nightMode="true" shader="nr2_night"/>
-				<apply shader="nr2" color_2="#4400ae3d" />
+				<case hideNatureReserveSymbol="false">
+					<apply_if nightMode="true" shader="nr2_night"/>
+					<apply shader="nr2"/>
+				</case>
+				<apply_if hideNatureReserveColor="false" color_0="#3354B265"/>
+				<apply color_2="#4400ae3d" />
+				<apply_if maxzoom="11" strokeWidth_2="1:1"/>
+				<apply_if minzoom="12" maxzoom="13" strokeWidth_2="2:2"/>
+				<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
 			</case>
-			<apply color_0="#3354B265" strokeWidth_2="2:2"/>
-			<apply_if maxzoom="11" strokeWidth_2="1:1"/>
-			<apply_if minzoom="12" maxzoom="13" strokeWidth_2="2:2"/>
-			<apply_if minzoom="14" strokeWidth_2="3.5:3.5"/>
 		</switch>
 	</polygon>
 
