@@ -5652,7 +5652,7 @@
 			<apply_if additional="assisted_trail=yes" color_2="$rungsColor" color_3="$rungsColor"/>
 			<apply_if additional="osmand_safety_rope=yes" color_2="$rungsColor" color_3="$rungsColor"/>
 		</case>
-		<case minzoom="16" tag="ladder" value="yes" strokeWidth="4:4" color="$rungsColor" pathEffect="1_2"/>
+		<case minzoom="16" tag="ladder" value="yes" strokeWidth="6:8" color="$rungsColor" pathEffect="1_2"/>
 
 		<switch minzoom="11">
 			<switch>
