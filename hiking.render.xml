@@ -571,8 +571,16 @@
 			<case tag="landuse" value="meadow">
 				<apply color="#d5eaaf"/>
 			</case>
+			<switch>
+				<case tag="natural" value="grassland"/>
+				<case tag="landuse" value="grass"/>
+				<apply color="#e9f2cb"/>
+			</switch>
 			<case tag="landuse" value="forest">
 				<apply color="#cbddb2"/>
+			</case>
+			<case tag="natural" value="scrub">
+				<apply  color="#e8f1c6"/>
 			</case>
 		</switch>
 
