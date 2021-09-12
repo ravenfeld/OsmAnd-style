@@ -4927,9 +4927,14 @@
 								<apply_if additional="trail_visibility=horrible" color_5="#888888"/>
 								<apply_if additional="trail_visibility=no" color_5="#888888"/>
 							</apply_if>
-							<apply_if additional="osmand_rungs=yes" color_5="$rungsColor" strokeWidth_5="1:1.5"/>
-							<apply_if additional="assisted_trail=yes" color_5="$rungsColor" strokeWidth_5="1:1.5"/>
-							<apply_if additional="osmand_safety_rope=yes" color_5="$rungsColor" strokeWidth_5="1:1.5"/>
+							<apply_if additional="osmand_rungs=yes" color_5="$rungsColor" strokeWidth_5="4:4"/>
+							<apply_if additional="assisted_trail=yes" color_5="$rungsColor"/>
+							<apply_if additional="osmand_safety_rope=yes" color_5="$rungsColor"/>
+							<apply_if maxzoom="12" strokeWidth_3="0.3" strokeWidth_4="0.3"/>
+							<apply_if maxzoom="13" strokeWidth_3="0.5" strokeWidth_4="0.5"/>
+							<apply_if minzoom="14" maxzoom="16" strokeWidth_3="2:2" strokeWidth_4="2:2"/>
+							<apply_if maxzoom="17" strokeWidth_3="3:3" strokeWidth_4="3:3"/>
+							<apply_if minzoom="18" strokeWidth_3="4:4" strokeWidth_4="4:4"/>
 						</case>
 						<case minzoom="13" tag="highway" value="footway" color_5="$footwayColor">
 							<switch maxzoom="14">
