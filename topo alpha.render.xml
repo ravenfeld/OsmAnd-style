@@ -623,17 +623,22 @@
 	<renderingConstant name="null" value="#00000000"/>
 
 	<renderingAttribute name="waterColor">
+    <case nightMode="true" attrColorValue="#104C77"/>
+		<case attrColorValue="#53a4c9"/>
+	</renderingAttribute>
+  <!--	<renderingAttribute name="waterColor">
 		<case nightMode="true" attrColorValue="#0C335C"/>
 		<case attrColorValue="#7ad1ed"/>
-	</renderingAttribute>
+	</renderingAttribute>-->
 	<!--	<renderingAttribute name="waterStrokeColor">
 		<case nightMode="true" attrColorValue="#511db8"/>
 		<case attrColorValue="#4580cf"/>
 	</renderingAttribute>-->
 	<renderingAttribute name="waterwayColor">
-		<case nightMode="true" attrColorValue="#104C77"/>
-		<case attrColorValue="#1A7DC3"/>
+    <case nightMode="true" attrColorValue="#104C77"/>
+		<case attrColorValue="#53a4c9"/>
 	</renderingAttribute>
+		<!--	"#1A7DC3"-->
 	<renderingAttribute name="waterwayTunnelColor">
 		<case attrColorValue="#B0CCDF"/>
 	</renderingAttribute>
