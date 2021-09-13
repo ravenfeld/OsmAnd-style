@@ -36,7 +36,7 @@
 		<!-- next line should should make background transparent for underlays to be visible, but this curretnly does not work as desired -->
 		<!-- To change default color completely you should do that also for tag="place" value="island" and tag="natural" value="land" (search this file) -->
 		<case noPolygons="true" attrColorValue="#00555555"/>
-		<case attrColorValue="#ffffff">
+		<case attrColorValue="#fffff5">
 			<apply_if nightMode="true" attrColorValue="#000000"/>
 		</case>
 	</renderingAttribute>
@@ -644,7 +644,7 @@
 	</renderingAttribute>
 	<renderingAttribute name="woodColor">
 		<case nightMode="true" attrColorValue="#1C3B0F"/>
-		<case attrColorValue="#c4ecb4"/>
+		<case attrColorValue="#c6dead"/>
 	</renderingAttribute>
 	<renderingAttribute name="woodYoungColor">
 		<case nightMode="true" attrColorValue="$woodColor"/>
@@ -854,7 +854,7 @@
 	</renderingAttribute>
 	<renderingAttribute name="grassColor">
 		<case nightMode="true" attrColorValue="#001F04"/>
-		<case attrColorValue="#e9f2cb"/>
+		<case attrColorValue="#cfeca8"/>
 	</renderingAttribute>
 	<renderingAttribute name="farmlandColor">
 		<case nightMode="true" attrColorValue="#14130F"/>
@@ -3977,8 +3977,8 @@
 						</apply_if>
 					</switch>
 					<case minzoom="12" tag="natural" value="scrub">
-						<apply_if maxzoom="13" color="#b3e3b5"/>
-						<apply_if minzoom="14" color_0="#B3E3B5" shader="topo_scrub"/>
+						<apply_if maxzoom="13" color="#e6f2c1"/>
+						<apply_if minzoom="14" color_0="#e6f2c1" shader="topo_scrub"/>
 						<apply_if nightMode="true" color_0="#1B251B" color="#1B251B" shader="topo_scrub_night"/>
 					</case>
 					<case minzoom="10" tag="landuse" value="allotments" color_0="$landuseAllotmentsColor" color_2="#8fbda0" strokeWidth_2=":1">
@@ -3989,14 +3989,19 @@
 						<apply_if minzoom="14" shader="topo_orchard"/>
 						<apply_if nightMode="true" minzoom="14" shader="topo_allotments_night" color_2="#294533"/>
 					</case>
-					<switch minzoom="6" color="$grassColor">
+					<switch minzoom="6" color="#cfeca8">
 						<case tag="natural" value="grassland"/>
-						<case tag="landuse" value="meadow"/>
 						<case minzoom="12" tag="landuse" value="grassland"/>
+					</switch>
+					<switch minzoom="6" color="#cfeca8">
+						<case tag="landuse" value="meadow"/>
+					</switch>
+					<switch minzoom="11">
+						<case tag="natural" value="heath"/>
+						<apply color="#f3f9db"/>
 					</switch>
 					<switch minzoom="11">
 						<case tag="landuse" value="grass"/>
-						<case tag="natural" value="heath"/>
 						<apply color="$grassColor"/>
 					</switch>
 					<switch minzoom="4" tag="natural" value="glacier">
