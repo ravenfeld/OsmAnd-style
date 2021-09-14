@@ -4264,7 +4264,7 @@
 					</switch>
 					<case minzoom="10" tag="waterway" value="dock" color_2="#aa8387d5" strokeWidth_2="3"/>
 					<apply color="$waterColor"/>
-					<apply_if additional="intermittent=yes" strokeWidth_2="1:0" color_2="#7479ec" pathEffect_2="7_5"/>
+					<apply_if additional="intermittent=yes" strokeWidth_2="1:0" color_2="#7479ec" pathEffect_2="7_5" cap_2="ROUND"/>
 				</switch>
 				<apply>
 					<switch hideAccess="false" minzoom="13">
@@ -4905,7 +4905,7 @@
 			<switch>
 				<switch>
 					<switch strokeWidth="0.1">
-						<case minzoom="12" tag="highway" value="track">
+						<case minzoom="12" tag="highway" value="track" cap="ROUND">
 							<case lessDetailed="false"/>
 							<apply_if lessDetailed="false"/>
 							<apply_if surfaceIntegrity="false">
@@ -4954,7 +4954,7 @@
 								<apply_if additional="trail_visibility=no" color_5="#888888"/>
 							</apply_if>
 						</case>
-						<case minzoom="12" tag="highway" value="path">
+						<case minzoom="12" tag="highway" value="path" cap_5="ROUND">
 							<case baseAppMode="bicycle" minzoom="14" additional="bicycle=designated" color_5="$cyclewayColor" pathEffect_5="4_2" strokeWidth_5="1:1"/>
 							<case lessDetailed="false" maxzoom="14" color_5="$pathColor" pathEffect_5="$pathPathEffect">
 								<case maxzoom="12" strokeWidth_5="$pathLowZoomStrokeWidth" color_5="$pathLowZoomColor" pathEffect_5="$pathLowZoomPathEffect"/>
