@@ -5051,36 +5051,42 @@
 					</apply_if>
 					<apply_if surfaceIntegrity="false">
 						<apply_if additional="trail_visibility=bad">
-							<case maxzoom="14" pathEffect_5="5_7"/>
-							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_10"/>
-							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_10"/>
-							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_10"/>
-							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_10"/>
+							<case maxzoom="12" strokeWidth_5="0.5" pathEffect_5=""/>
+							<case maxzoom="13" strokeWidth_5="1" pathEffect_5="0.5"/>
+							<case maxzoom="14" strokeWidth_5="3:3" pathEffect_5="0.5_10"/>
+							<case maxzoom="15" strokeWidth_5="4:4" pathEffect_5="0.5_10"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="0.5_10"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="0.5_10"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="0.5_10"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=horrible">
-							<case maxzoom="14" pathEffect_5="5_10"/>
-							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_14"/>
-							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_14"/>
-							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_14"/>
-							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_14"/>
+							<case maxzoom="12" strokeWidth_5="0.5" pathEffect_5=""/>
+							<case maxzoom="13" strokeWidth_5="1" pathEffect_5="0.5"/>
+							<case maxzoom="14" strokeWidth_5="3:3" pathEffect_5="0.5_14"/>
+							<case maxzoom="15" strokeWidth_5="4:4" pathEffect_5="0.5_14"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="0.5_14"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="0.5_14"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="0.5_14"/>
 						</apply_if>
 						<apply_if additional="trail_visibility=no">
-							<case maxzoom="14" pathEffect_5="5_14"/>
-							<case maxzoom="15" strokeWidth_5="3:3" pathEffect_5="5_20"/>
-							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="5_20"/>
-							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="5_20"/>
-							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="5_20"/>
+							<case maxzoom="12" strokeWidth_5="0.5" pathEffect_5=""/>
+							<case maxzoom="13" strokeWidth_5="1" pathEffect_5="0.5"/>
+							<case maxzoom="14" strokeWidth_5="3:3" pathEffect_5="0.5_20"/>
+							<case maxzoom="15" strokeWidth_5="4:4" pathEffect_5="0.5_20"/>
+							<case maxzoom="16" strokeWidth_5="4:4" pathEffect_5="0.5_20"/>
+							<case maxzoom="17" strokeWidth_5="4:4" pathEffect_5="0.5_20"/>
+							<case maxzoom="18" strokeWidth_5="4:4" pathEffect_5="0.5_20"/>
 						</apply_if>
 					</apply_if>
 				</switch>
-				<case minzoom="15" tag="highway" value="steps" strokeWidth="0.1">
+				<case minzoom="14" tag="highway" value="steps" strokeWidth="0.1">
 					<case lessDetailed="false" maxzoom="15">
-						<case layer="1" strokeWidth_4="1.7:1.7" strokeWidth_5="1.7:1.7"/>
-						<case strokeWidth_4="2:2" strokeWidth_5="2:2"/>
+						<case layer="1" strokeWidth_4="4:4" strokeWidth_5="4:4"/>
+						<case strokeWidth_4="4:4" strokeWidth_5="4:4"/>
 						<!-- If we remove this and let <order> to decide when to hide steps, layer="1" will be also hidden which is undesirable.-->
 					</case>
 					<case maxzoom="15" strokeWidth=""/>
-					<case minzoom="16" strokeWidth_4="2:2" strokeWidth_5="2:2"/>
+					<case minzoom="16" strokeWidth_4="4:4" strokeWidth_5="4:4"/>
 					<apply color_5="$footwayColor" pathEffect_5="1_2"/>
 					<apply_if additional="conveying=yes" pathEffect_5="2_1"/>
 				</case>
