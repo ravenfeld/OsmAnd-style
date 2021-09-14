@@ -519,7 +519,7 @@
 	</renderingAttribute>
 	<renderingConstant name="pathStrokeWidth" value="3"/>
 	<renderingConstant name="pathLowZoomStrokeWidth" value="0.5:0.5"/>
-	<renderingConstant name="pathPathEffect" value="16_4"/>
+	<renderingConstant name="pathPathEffect" value="16_7"/>
 	<renderingConstant name="pathLowZoomPathEffect" value=""/>
 	<renderingConstant name="pathPathEffectSurfaceIntegrity" value="16_4"/>
 	<renderingAttribute name="cyclewayColor">
