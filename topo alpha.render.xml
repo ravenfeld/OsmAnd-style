@@ -5468,7 +5468,7 @@
 			<case minzoom="17" strokeWidth="2.5:2.5"/>
 			<apply color="#888888"/>
 		</case>
-		<switch minzoom="15">
+		<switch minzoom="16">
 			<case tag="ford" value="yes"/>
 			<case tag="ford" value="stepping_stones"/>
 			<apply color="#447777ff" strokeWidth="2.3:2.3"/>
