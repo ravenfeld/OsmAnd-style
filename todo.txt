@@ -7,13 +7,13 @@ Dossier spécifique pour la randonnée qui contient les réglages:
 
 
 Rendu: 
-- Path/track comme IGN
+- Path/track comme IGN --->Fait
 - Réserve naturelle, si on zoom alors on laisse que les symboles.  
-- Visibilité du sentier issue de Mapnik 
-- Difficulté du sentier issue de Mapnik
-- Rendu de la visibilité comme IGN ? (Point rond rose plus gros )
-- Supprimer la nature des track ainsi que leurs grades 
-- Couleur des forêts et autres surfaces ?
+- Visibilité du sentier issue de Mapnik --->Fait
+- Difficulté du sentier issue de Mapnik --->Fait
+- Rendu de la visibilité comme IGN ? (Point rond rose plus gros ) --->Fait
+- Supprimer la nature des track ainsi que leurs grades --->utile pour le rendu comme IGN
+- Couleur des forêts et autres surfaces ? --->Fait
 - Nom des sentiers décalé du sentier 
 - OSMC décalé du sentier 
 - Afficher les symboles OSMC même si le sentier ne fait pas partie d’un itinéraire.
