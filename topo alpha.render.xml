@@ -2459,7 +2459,9 @@
 			<switch>
 				<case minzoom="13" tag="place" value="isolated_dwelling" nameTag="" textOrder="111"/>
 				<case minzoom="13" tag="place" value="locality" nameTag="" textOrder="112"/>
-				<apply textSize="12" textColor="$placeLocalityTextColor"/>
+				<apply textSize="10" textColor="$placeLocalityTextColor"/>
+				<apply_if minzoom="14" textSize="11"/>
+				<apply_if minzoom="15" textSize="12"/>
 				<apply_if minzoom="16" textSize="13"/>
 				<apply_if minzoom="17" textSize="14"/>
 			</switch>
