@@ -2626,16 +2626,20 @@
 					</case>
 					<case minzoom="15" tag="natural" value="hill" nameTag="" nameTag2="ele" textOrder="70" textSize="11"/>
 					<case minzoom="16" textSize="12" tag="natural" value="cave_entrance" textOrder="236"/>
-					<case minzoom="6" textSize="12" tag="natural" value="ridge" textItalic="false" textOnPath="true" textOrder="43"/>
+					<case minzoom="6" textSize="15" tag="natural" value="ridge" textItalic="false" textOnPath="true" textOrder="43"/>
 					<switch minzoom="13">
-						<case tag="natural" value="valley"/>
 						<case tag="waterway" value="drystream"/>
 						<apply textSize="12" textOnPath="true" textOrder="43"/>
 						<apply_if minzoom="15" textSize="15"/>
 					</switch>
+					<switch minzoom="13">
+						<case tag="natural" value="valley"/>
+						<apply textSize="12" textOnPath="true" textOrder="43"/>
+						<apply_if minzoom="15" textSize="17"/>
+					</switch>
 					<case minzoom="15" textSize="12" tag="natural" value="cliff" textOnPath="true" textHaloRadius="3" textOrder="43"/>
 					<case minzoom="15" textSize="12" tag="natural" value="saddle" nameTag="" nameTag2="rtsa_scale"/>
-					<case minzoom="13" textSize="12" tag="natural" value="gorge" textOnPath="true" textOrder="44" textDy="0"/>
+					<case minzoom="13" textSize="17" tag="natural" value="gorge" textOnPath="true" textOrder="44" textDy="0"/>
 					<case minzoom="13" textSize="12" tag="natural" value="couloir" textOnPath="true" textOrder="44" textDy="0"/>
 					<switch>
 						<case tag="region:type" value="mountain_area" nameTag=""/>
@@ -5343,11 +5347,17 @@
 			<apply_if nightMode="true" color="$defaultColor"/>
 		</case>
 		<switch minzoom="13">
-			<case tag="natural" value="valley"/>
 			<case minzoom="14" tag="waterway" value="drystream"/>
 			<apply_if maxzoom="14" strokeWidth="2"/>
 			<apply_if minzoom="15" maxzoom="16" strokeWidth="3"/>
 			<apply_if minzoom="16" strokeWidth="4"/>
+			<apply color="#55666666"/>
+		</switch>
+		<switch minzoom="13">
+			<case tag="natural" value="valley"/>
+			<apply_if maxzoom="14" strokeWidth="0.3"/>
+			<apply_if minzoom="15" maxzoom="16" strokeWidth="0.3"/>
+			<apply_if minzoom="16" strokeWidth="0.3"/>
 			<apply color="#55666666"/>
 		</switch>
 
@@ -5672,12 +5682,10 @@
 			<apply minzoom="17" strokeWidth_2="4:4" pathEffect_2="1_12"/>
 		</switch>
 		<case minzoom="11" tag="natural" value="ridge" color="$ridgeColor" color_2="$ridgeColor">
-			<case maxzoom="11" strokeWidth="1"/>
--			<case maxzoom="12" strokeWidth="1.5"/>
--			<case maxzoom="13" strokeWidth="1.8"/>
--			<case maxzoom="14" strokeWidth="2.4"/>
--			<case maxzoom="15" strokeWidth="1.6:1.6"/>
--			<case minzoom="16" strokeWidth="2:2"/>
+			<case maxzoom="11" strokeWidth="0.2"/>
+-			<case maxzoom="12" strokeWidth="0.3"/>
+-			<case maxzoom="13" strokeWidth="0.4"/>
+-			<case minzoom="14" strokeWidth="0.5"/>
 		</case>
 		<case noPolygons="false" minzoom="14" tag="natural" value="tree_row" color="#277c27" color_2="#ffffff" cap="ROUND" cap_2="ROUND">
 			<case lessDetailed="false" maxzoom="14" strokeWidth="1:1" pathEffect="1_4" strokeWidth_2="0.5:0.5" pathEffect_2="1_5"/>
