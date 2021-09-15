@@ -2635,11 +2635,11 @@
 					<switch minzoom="13">
 						<case tag="natural" value="valley"/>
 						<apply textSize="12" textOnPath="true" textOrder="43"/>
-						<apply_if minzoom="15" textSize="17"/>
+						<apply_if minzoom="15" textSize="15"/>
 					</switch>
 					<case minzoom="15" textSize="12" tag="natural" value="cliff" textOnPath="true" textHaloRadius="3" textOrder="43"/>
 					<case minzoom="15" textSize="12" tag="natural" value="saddle" nameTag="" nameTag2="rtsa_scale"/>
-					<case minzoom="13" textSize="17" tag="natural" value="gorge" textOnPath="true" textOrder="44" textDy="0"/>
+					<case minzoom="13" textSize="15" tag="natural" value="gorge" textOnPath="true" textOrder="44" textDy="0"/>
 					<case minzoom="13" textSize="12" tag="natural" value="couloir" textOnPath="true" textOrder="44" textDy="0"/>
 					<switch>
 						<case tag="region:type" value="mountain_area" nameTag=""/>
@@ -2891,7 +2891,7 @@
 					<case minzoom="18" tag="natural" value="tree" textSize="11" textOrder="252"/>
 					<case minzoom="19" tag="natural" value="shrub" textSize="11" textOrder="253"/>
 					<case minzoom="12" tag="natural" value="reef"/>
-					<case minzoom="18" tag="natural" value="stone" textSize="11" textDy="4"/>
+					<case minzoom="16" tag="natural" value="stone" textSize="11" textDy="4"/>
 					<case minzoom="16" tag="natural" value="arch" textSize="11" textOnPath="true"/>
 					<case minzoom="17" tag="natural" value="rock" textSize="11" textDy="4"/>
 					<case minzoom="14" tag="natural" value="bare_rock" textSize="11" textDy="4"/>
