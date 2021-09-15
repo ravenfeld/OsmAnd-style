@@ -3462,8 +3462,8 @@
 			</switch>
 		</switch>
 
-		<case minzoom="14" tag="amenity" value="place_of_worship" iconOrder="40">
-			<case additional="religion=christian" icon="topo_christian" shield="topo_christian_shield"/>
+		<case minzoom="14" tag="amenity" value="place_of_worship" iconOrder="50">
+			<case additional="religion=christian" icon="religion_christian" shield="cross_shield" iconVisibleSize="11" intersectionSizeFactor="0.8"/>
 			<case additional="religion=jewish" icon="topo_jewish" shield="topo_jewish_shield"/>
 			<case additional="religion=muslim" icon="topo_muslim" shield="topo_muslim_shield"/>
 			<case additional="religion=sikh" icon="religion_sikh" shield="topo_sikh_shield"/>
