@@ -3957,7 +3957,7 @@
 								<apply color="$woodYoungColor"/>
 							</switch>
 						</apply_if>
-						<apply_if minzoom="14">
+						<apply_if minzoom="18">
 							<apply_if additional="leaf_type=broadleaved" shader="topo_wood_broadleaved">
 								<apply_if nightMode="true" shader=""/>
 							</apply_if>
@@ -3983,17 +3983,17 @@
 							<apply_if additional="wood:damage=dead_wood" shader="topo_dead_wood" color_0="$woodLostColor"/>
 						</apply_if>
 					</switch>
-					<case minzoom="12" tag="natural" value="scrub">
+					<case minzoom="6" tag="natural" value="scrub">
 						<apply_if maxzoom="13" color="#e6f2c1"/>
-						<apply_if minzoom="14" color_0="#e6f2c1" shader="topo_scrub"/>
+						<apply_if minzoom="18" color_0="#e6f2c1" shader="topo_scrub"/>
 						<apply_if nightMode="true" color_0="#1B251B" color="#1B251B" shader="topo_scrub_night"/>
 					</case>
 					<case minzoom="10" tag="landuse" value="allotments" color_0="$landuseAllotmentsColor" color_2="#8fbda0" strokeWidth_2=":1">
-						<apply_if minzoom="14" shader="topo_allotments"/>
+						<apply_if minzoom="18" shader="topo_allotments"/>
 						<apply_if nightMode="true" minzoom="14" shader="topo_allotments_night" color_2="#294533"/>
 					</case>
 					<case minzoom="12" tag="landuse" value="orchard" color="$landuseOrchardColor" color_0="$landuseOrchardColor" color_2="#499720">
-						<apply_if minzoom="14" shader="topo_orchard"/>
+						<apply_if minzoom="18" shader="topo_orchard"/>
 						<apply_if nightMode="true" minzoom="14" shader="topo_allotments_night" color_2="#294533"/>
 					</case>
 					<switch minzoom="6" color="#cfeca8">
@@ -4007,7 +4007,7 @@
 						<case tag="natural" value="heath"/>
 						<apply color="#f3f9db"/>
 					</switch>
-					<switch minzoom="11">
+					<switch minzoom="6">
 						<case tag="landuse" value="grass"/>
 						<apply color="$grassColor"/>
 					</switch>
