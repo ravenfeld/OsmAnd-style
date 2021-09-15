@@ -2769,7 +2769,7 @@
 
 			<!-- Tourism and Entertainment -->
 			<switch textSize="12" nameTag="" textColor="$historicTextColor" textHaloRadius="$textHaloRadius" textHaloColor="$historicTextHaloColor" textWrapWidth="20" textOrder="155">
-				<case minzoom="19" tag="amenity" value="place_of_worship" nameTag="" textOrder="40"/>
+				<case minzoom="19" tag="amenity" value="place_of_worship" nameTag="" textOrder="50"/>
 				<case minzoom="19" tag="tourism" value="artwork" nameTag="">
 					<apply_if additional="artwork_type=statue" icon="memorial_statue"/>
 				</case>
@@ -3402,9 +3402,9 @@
 				<case minzoom="16" tag="historic" value="wayside_shrine" icon="topo__wayside_shrine"/>
 			</switch>
 			<case minzoom="15" tag="historic" value="castle" icon="topo_castle" iconOrder="157"/>
-			<switch minzoom="15">
+			<switch minzoom="14">
 				<case tag="man_made" value="cross"/>
-				<case minzoom="16" tag="historic" value="wayside_cross"/>
+				<case minzoom="14" tag="historic" value="wayside_cross"/>
 				<apply icon="cross" shield="cross_shield" iconOrder="95"/>
 			</switch>
 			<case minzoom="14" tag="building" value="pyramid" icon="topo_building_pyramid" iconOrder="5"/>
