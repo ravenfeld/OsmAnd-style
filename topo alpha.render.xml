@@ -3367,8 +3367,8 @@
 		<case minzoom="16" tag="natural" value="arch" icon="arch" shield="arch_shield"/>
 		<case minzoom="16" tag="sport" value="climbing" icon="sport_climbing" shield="green_round_shield"/>
 
-		<case minzoom="14" tag="ford" value="yes" icon="topo_ford" shield="topo_ford_shield"/>
-		<case minzoom="14" tag="ford" value="stepping_stones" icon="topo_ford_stepping_stones" shield="topo_ford_stepping_stones_shield"/>
+		<case minzoom="16" tag="ford" value="yes" icon="topo_ford" shield="topo_ford_shield"/>
+		<case minzoom="16" tag="ford" value="stepping_stones" icon="topo_ford_stepping_stones" shield="topo_ford_stepping_stones_shield"/>
 
 		<case minzoom="16" tag="tourism" value="information" icon="tourism_information" iconOrder="120" shield="information_shield">
 			<case additional="information=office" icon="information_office" shield="information_office_shield"/>
@@ -3380,7 +3380,7 @@
 		</case>
 		<case minzoom="16" tag="amenity" value="monastery" icon="amenity_monastery" shield="white_round_shield" iconOrder="39"/>
 
-		<switch shield="white_round_shield">
+		<switch>
 			<switch iconOrder="70">
 				<!--				<case minzoom="18" tag="tourism" value="artwork" icon="tourism_artwork" iconOrder="69"/>
 				<case minzoom="16" tag="tourism" value="museum" icon="tourism_museum"/>-->
@@ -3447,17 +3447,18 @@
 			<case minzoom="16" tag="tourism" value="hotel" icon="topo_hotel" shield="topo_hotel_shield"/>
 			<case minzoom="16" tag="tourism" value="motel" icon="topo_motel" shield="topo_motel_shield"/>
 			<switch>
-				<case minzoom="14" tag="tourism" value="camp_site" icon="topo_camp_site" shield="topo_camp_site_shield"/>
+				<case minzoom="16" tag="tourism" value="camp_site" icon="topo_camp_site" shield="topo_camp_site_shield"/>
 				<case minzoom="16" tag="tourism" value="camp_pitch" icon="topo_camp_pitch" shield="topo_camp_pitch_shield" iconOrder="86"/>
-				<case minzoom="14" tag="tourism" value="caravan_site" icon="topo_caravan_site" shield="topo_caravan_site_shield"/>
+				<case minzoom="16" tag="tourism" value="caravan_site" icon="topo_caravan_site" shield="topo_caravan_site_shield"/>
 				<case minzoom="14" tag="tourism" value="chalet" icon="topo_chalet" shield="topo_chalet_shield"/>
-				<case minzoom="14" tag="tourism" value="alpine_hut" icon="topo_alpine_hut" shield="topo_alpine_hut_shield" iconOrder="40"/>
+				<case minzoom="13" tag="tourism" value="alpine_hut" icon="topo_alpine_hut" shield="topo_alpine_hut_shield" iconOrder="40"/>
 				<case minzoom="14" tag="tourism" value="cabin" icon="topo_cabin" shield="topo_cabin_shield"/>
 				<case minzoom="14" tag="tourism" value="lean_to" icon="topo_lean_to" shield="topo_lean_to_shield"/>
-				<case minzoom="14" tag="tourism" value="wilderness_hut" icon="topo_wilderness_hut" shield="topo_wilderness_hut_shield" iconOrder="40"/>
-				<case minzoom="14" tag="amenity" value="shelter" icon="topo_shelter" shield="topo_shelter_shield" iconOrder="40"/>
-				<apply_if minzoom="16" additional="drinking_water=yes" icon_2="topo_drinking_water_yes_map"/>
-				<apply_if minzoom="16" additional="drinking_water=no" icon_2="topo_drinking_water_no_map"/>
+				<case minzoom="13" tag="tourism" value="wilderness_hut" icon="topo_wilderness_hut" shield="topo_wilderness_hut_shield" iconOrder="40"/>
+				<case minzoom="13" tag="amenity" value="shelter" icon="topo_shelter" shield="topo_shelter_shield" iconOrder="40"/>
+				<apply_if minzoom="13" additional="drinking_water=yes" icon_2="topo_drinking_water_yes_map"/>
+				<apply_if minzoom="13" additional="drinking_water=no" icon_2="topo_drinking_water_no_map"/>
+				<apply shield="white_round_shield"/>
 			</switch>
 		</switch>
 
