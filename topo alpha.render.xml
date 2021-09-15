@@ -1401,9 +1401,9 @@
 		<case attrColorValue="#777777"/>
 	</renderingAttribute>
 
-	<renderingConstant name="placeHamletMinZoom" value="12"/>
-	<renderingConstant name="placeSuburbMinZoom" value="12"/>
-	<renderingConstant name="placeNeighbourhoodMinZoom" value="13"/>
+	<renderingConstant name="placeHamletMinZoom" value="13"/>
+	<renderingConstant name="placeSuburbMinZoom" value="14"/>
+	<renderingConstant name="placeNeighbourhoodMinZoom" value="14"/>
 	<renderingAttribute name="forestTextColor">
 		<case nightMode="true" attrColorValue="#DBF6DA"/>
 		<case attrColorValue="#388738"/>
@@ -3984,7 +3984,7 @@
 						</apply_if>
 					</switch>
 					<case minzoom="6" tag="natural" value="scrub">
-						<apply_if maxzoom="13" color="#e6f2c1"/>
+						<apply_if maxzoom="17" color="#e6f2c1"/>
 						<apply_if minzoom="18" color_0="#e6f2c1" shader="topo_scrub"/>
 						<apply_if nightMode="true" color_0="#1B251B" color="#1B251B" shader="topo_scrub_night"/>
 					</case>
@@ -4003,7 +4003,7 @@
 					<switch minzoom="6" color="#cfeca8">
 						<case tag="landuse" value="meadow"/>
 					</switch>
-					<switch minzoom="11">
+					<switch minzoom="6">
 						<case tag="natural" value="heath"/>
 						<apply color="#f3f9db"/>
 					</switch>
@@ -4041,7 +4041,7 @@
 					</case>
 					<case minzoom="12" tag="landuse" value="greenhouse_horticulture" color_0="$landuseGreenhouseHorticultureColor" shader="greenhouse_horticulture"/>
 					<case minzoom="12" tag="landuse" value="vineyard" color="$landuseVineyardColor">
-						<apply_if minzoom="14" shader="topo_vineyard" color_0="$landuseVineyardColor"/>
+						<apply_if minzoom="18" shader="topo_vineyard" color_0="$landuseVineyardColor"/>
 					</case>
 
 					<case minzoom="12" tag="landuse" value="farmyard" color="$farmyardColor"/>
