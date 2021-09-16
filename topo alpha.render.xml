@@ -3664,8 +3664,8 @@
 		<case minzoom="18" tag="natural" value="shrub" iconOrder="129" icon="shrub_dot" intersectionMargin="5"/>
 
 		<case minzoom="16" tag="highway" value="via_ferrata" icon="via_ferrata_map" shield="via_ferrata_shield"/>
-		<case minzoom="16" tag="osmand_rungs_node" value="yes" icon="rungs_dot"/>
-		<case minzoom="16" tag="ladder" value="yes" icon="ladder"/>
+		<case minzoom="15" tag="osmand_rungs_node" value="yes" icon="rungs_dot"/>
+		<case minzoom="15" tag="ladder" value="yes" icon="ladder"/>
 
 		<case minzoom="17" tag="highway" value="traffic_signals" icon="highway_traffic_signals_map" shield="traffic_signals_shield"/>
 		<case minzoom="17" tag="highway" value="crossing" icon="highway_crossing_map" iconVisibleSize="14" shield="highway_crossing_shield">
@@ -5034,7 +5034,7 @@
 							<case additional="sac_scale=demanding_mountain_hiking" color_5="$sacScaleColorT3" pathEffect_5="10_6"/>
 							<case additional="sac_scale=alpine_hiking" color_5="$sacScaleColorT4" pathEffect_5=""/>
 							<case additional="sac_scale=demanding_alpine_hiking" color_5="$sacScaleColorT5" pathEffect_5="10_6"/>
-							<case additional="sac_scale=difficult_alpine_hiking" color_5="$sacScaleColorT6" pathEffect_5="3_3"/>
+							<case additional="sac_scale=difficult_alpine_hiking" color_5="$sacScaleColorT6" pathEffect_5="1_7"/>
 							<apply_if maxzoom="14" strokeWidth_3="2:2" strokeWidth_4="2:2"/>
 							<apply_if minzoom="15" maxzoom="17" strokeWidth_3="3:3" strokeWidth_4="3:3"/>
 							<apply_if minzoom="18" strokeWidth_3="4:4" strokeWidth_4="4:4"/>
