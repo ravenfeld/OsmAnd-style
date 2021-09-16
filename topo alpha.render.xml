@@ -1953,7 +1953,7 @@
 
 	<text>
 
-		<switch minzoom="14" textHaloRadius="$textHaloRadius" textOnPath="true" nameTag="">
+		<switch minzoom="16" textHaloRadius="$textHaloRadius" textOnPath="true" nameTag="">
 			<case minzoom="16" tag="area:highway" value="motorway" textColor="$motorwayTextColor" textHaloColor="$motorwayRoadColor" textOrder="50" textWrapWidth="25"/>
 			<case tag="highway" value="motorway" textColor="$motorwayTextColor" textHaloColor="$motorwayRoadColor" textOrder="50"/>
 			<case tag="highway" value="motorway_link" textColor="$motorwayTextColor" textHaloColor="$motorwayRoadColor" textOrder="51"/>
@@ -1967,27 +1967,27 @@
 			<case minzoom="16" tag="area:highway" value="secondary" textColor="$secondaryTextColor" textHaloColor="$secondaryRoadColor" textOrder="61" textWrapWidth="25"/>
 			<case tag="highway" value="secondary_link" textColor="$secondaryTextColor" textHaloColor="$secondaryRoadColor" textOrder="62"/>
 			<apply>
-				<case maxzoom="14" textSize="13"/>
-				<case maxzoom="15" textSize="14"/>
-				<case maxzoom="16" textSize="15"/>
+				<case maxzoom="14" textSize="10"/>
+				<case maxzoom="15" textSize="11"/>
+				<case maxzoom="16" textSize="12"/>
 				<case maxzoom="17" textSize="17"/>
 				<case minzoom="18" textSize="19"/>
 			</apply>
 		</switch>
-		<switch minzoom="14" textHaloRadius="$textHaloRadius" textColor="$tertiaryTextColor" textOnPath="true" textHaloColor="$tertiaryRoadColor" nameTag="">
+		<switch minzoom="16" textHaloRadius="$textHaloRadius" textColor="$tertiaryTextColor" textOnPath="true" textHaloColor="$tertiaryRoadColor" nameTag="">
 			<case tag="highway" value="tertiary" textOrder="94"/>
 			<case minzoom="16" tag="area:highway" value="tertiary" textOrder="95" intersectsWith="any" textWrapWidth="25"/>
 			<case tag="highway" value="tertiary_link" textOrder="96"/>
 			<apply>
-				<case maxzoom="14" textSize="12"/>
-				<case maxzoom="15" textSize="13"/>
-				<case maxzoom="16" textSize="14"/>
-				<case maxzoom="17" textSize="16"/>
-				<case minzoom="18" textSize="18"/>
+				<case maxzoom="14" textSize="10"/>
+				<case maxzoom="15" textSize="11"/>
+				<case maxzoom="16" textSize="12"/>
+				<case maxzoom="17" textSize="17"/>
+				<case minzoom="18" textSize="19"/>
 			</apply>
 		</switch>
 
-		<switch minzoom="14">
+		<switch minzoom="16">
 			<switch textColor="$unclassifiedTextColor" textHaloRadius="$textHaloRadius" textHaloColor="$unclassifiedRoadColor">
 				<case tag="highway" value="unclassified" textOrder="122"/>
 			</switch>
@@ -2019,11 +2019,11 @@
 				<case minzoom="16" tag="area:highway" value="pedestrian" textOrder="64" textWrapWidth="25" intersectsWith="any"/>
 			</switch>
 			<apply textOnPath="true" nameTag="">
-				<case maxzoom="14" textSize="12"/>
-				<case maxzoom="15" textSize="13"/>
-				<case maxzoom="16" textSize="14"/>
-				<case maxzoom="17" textSize="16"/>
-				<case minzoom="18" textSize="18"/>
+				<case maxzoom="14" textSize="10"/>
+				<case maxzoom="15" textSize="11"/>
+				<case maxzoom="16" textSize="12"/>
+				<case maxzoom="17" textSize="17"/>
+				<case minzoom="18" textSize="19"/>
 			</apply>
 		</switch>
 		<case minzoom="16" tag="abandoned:highway" value="" textColor="$abandonedHighwayTextColor" textHaloRadius="$highwayTrackTextHaloRadiusDay" textHaloColor="$highwayTrackTextHaloColor" textOnPath="true" textOrder="225">
@@ -2141,7 +2141,7 @@
 			<case horseRoutes="true" tag="route_horse" value="" nameTag="route_horse_#SEQ_osmc_stub_name" textShield="osmc_?route_horse_#SEQ_osmc_background?_bg" icon="osmc_?route_horse_#SEQ_osmc_foreground?"/>
 		</switch>
 
-		<switch minzoom="14" textColor="$railwayTextColor" textHaloRadius="$textHaloRadius" textHaloColor="$defaultTextHaloColor" textOrder="251">
+		<switch minzoom="16" textColor="$railwayTextColor" textHaloRadius="$textHaloRadius" textHaloColor="$defaultTextHaloColor" textOrder="251">
 			<case tag="railway" value="rail"/>
 			<case tag="railway" value="tram"/>
 			<case minzoom="16" tag="railway" value="subway"/>
@@ -2155,11 +2155,11 @@
 			<case tag="railway" value="funicular"/>
 			<case minzoom="17" tag="railway" value="miniature"/>
 			<apply nameTag="" textOnPath="true">
-				<case maxzoom="14" textSize="12"/>
-				<case maxzoom="15" textSize="13"/>
-				<case maxzoom="16" textSize="14"/>
-				<case maxzoom="17" textSize="16"/>
-				<case minzoom="18" textSize="18"/>
+				<case maxzoom="14" textSize="10"/>
+				<case maxzoom="15" textSize="11"/>
+				<case maxzoom="16" textSize="12"/>
+				<case maxzoom="17" textSize="17"/>
+				<case minzoom="18" textSize="19"/>
 			</apply>
 		</switch>
 
@@ -2194,9 +2194,9 @@
 			</switch>
 			<apply textColor="$highwayLowLevelTextColor" textHaloRadius="$highwayTrackTextHaloRadiusDay" textHaloColor="$highwayTrackTextHaloColor" textOnPath="true"/>
 			<apply_if minzoom="15">
-				<case maxzoom="15" textSize="13"/>
-				<case maxzoom="16" textSize="14"/>
-				<case maxzoom="17" textSize="16"/>
+				<case maxzoom="15" textSize="10"/>
+				<case maxzoom="16" textSize="12"/>
+				<case maxzoom="17" textSize="15"/>
 				<case minzoom="18" textSize="18"/>
 			</apply_if>
 		</switch>
@@ -2397,7 +2397,10 @@
 				</apply>
 			</switch>
 			<switch>
-				<case minzoom="11" tag="place" value="village" textSize="14" textOrder="40" nameTag="" intersectionMargin="15">
+				<case minzoom="10" tag="place" value="village" textSize="12" textOrder="40" nameTag="" intersectionMargin="15">
+				  <apply_if minzoom="11" textSize="14"/>
+				  <apply_if minzoom="12" textSize="14"/>
+				  <apply_if minzoom="13" textSize="15"/>
 					<apply_if minzoom="16" textSize="16"/>
 					<apply_if minzoom="17" textSize="17"/>
 				</case>
@@ -2443,14 +2446,14 @@
 					<apply_if minzoom="16" textSize="17"/>
 				</case>
 				<switch>
-					<case minzoom="$placeNeighbourhoodMinZoom" tag="place" value="neighbourhood" nameTag="" textOrder="39"/>
-					<case minzoom="12" tag="place" value="borough" textItalic="true" nameTag="" textOrder="38"/>
-					<case minzoom="13" tag="place" value="quarter" textItalic="true" nameTag="" textOrder="37"/>
-					<case minzoom="14" tag="place" value="city_block" textItalic="true" nameTag="" textOrder="36"/>
-					<case minzoom="$placeHamletMinZoom" tag="place" value="hamlet" nameTag="" textOrder="42"/>
+					<case minzoom="$placeNeighbourhoodMinZoom" tag="place" value="neighbourhood" nameTag="" textOrder="44"/>
+					<case minzoom="13" tag="place" value="borough" textItalic="true" nameTag="" textOrder="44"/>
+					<case minzoom="13" tag="place" value="quarter" textItalic="true" nameTag="" textOrder="44"/>
+					<case minzoom="14" tag="place" value="city_block" textItalic="true" nameTag="" textOrder="44"/>
+					<case minzoom="$placeHamletMinZoom" tag="place" value="hamlet" nameTag="" textOrder="44"/>
 					<case minzoom="$placeHamletMinZoom" tag="place" value="farm" nameTag="" textOrder="109"/>
-					<case minzoom="12" tag="place" value="plot" nameTag="" textOrder="108"/>
-					<case minzoom="12" tag="place" value="municipality" nameTag="" textOrder="107"/>
+					<case minzoom="13" tag="place" value="plot" nameTag="" textOrder="108"/>
+					<case minzoom="13" tag="place" value="municipality" nameTag="" textOrder="107"/>
 					<apply textSize="13"/>
 					<apply_if minzoom="16" textSize="15"/>
 					<apply_if minzoom="17" textSize="16"/>
