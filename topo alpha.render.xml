@@ -718,10 +718,10 @@
 	</renderingAttribute>
 
 	<renderingAttribute name="buildingColor">
-		<case minzoom="14" maxzoom="15" attrColorValue="#555555">
+		<case minzoom="14" maxzoom="15" attrColorValue="#777777">
 			<apply_if nightMode="true" attrColorValue="#222222"/>
 		</case>
-		<case minzoom="16" attrColorValue="#222222">
+		<case minzoom="16" attrColorValue="#777777">
 			<apply_if nightMode="true" attrColorValue="#333333"/>
 		</case>
 	</renderingAttribute>
