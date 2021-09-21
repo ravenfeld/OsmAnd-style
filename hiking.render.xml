@@ -688,19 +688,19 @@
 					<apply strokeWidth="3" color="#000000" pathEffect="16_4" />
 					<apply_if additional="trail_visibility=intermediate" pathEffect="8_4"/>
 					<apply_if additional="trail_visibility=bad" pathEffect="4_4"/>
-					<apply_if additional="trail_visibility=horrible" pathEffect="2_8"/>
-					<apply_if additional="trail_visibility=no" pathEffect="2_16"/>
+					<apply_if additional="trail_visibility=horrible" strokeWidth="4" pathEffect="0.5_25" cap="ROUND" />
+					<apply_if additional="trail_visibility=no" strokeWidth="4" pathEffect="0.5_50" cap="ROUND"/>
 					<apply_if additional="access=private" color="#ad0b0b"/>
 					<apply_if additional="access=no" color="#ad0b0b"/>
 				</switch>
 				<apply>
 					<switch alpineHiking="true">
-						<case additional="sac_scale=hiking" color="#FFFF00" />
-						<case additional="sac_scale=mountain_hiking" color="#e23cad" />
-						<case additional="sac_scale=demanding_mountain_hiking" color="#e23cad" />
-						<case additional="sac_scale=alpine_hiking" color="#e23cad" />
-						<case additional="sac_scale=demanding_alpine_hiking" color="#6000ff" />
-						<case additional="sac_scale=difficult_alpine_hiking" color="#6000ff" />
+						<case additional="sac_scale=hiking" color="#000000" />
+						<case additional="sac_scale=mountain_hiking" color="#ede500" />
+						<case additional="sac_scale=demanding_mountain_hiking" color="#159900" />
+						<case additional="sac_scale=alpine_hiking" color="#0000db" />
+						<case additional="sac_scale=demanding_alpine_hiking" color="#e60000" />
+						<case additional="sac_scale=difficult_alpine_hiking" color="#bd00bd" />
 					</switch>
 				</apply>
 			</switch>
