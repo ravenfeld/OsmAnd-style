@@ -203,6 +203,8 @@
 				<case tag="region:type" value="mountain_area"/>
 				<case tag="natural" value="plateau"/>
 				<case tag="leisure" value="park"/>
+				<case tag="leisure" value="pitch" order="158"/>
+				<case tag="leisure" value="track" order="158"/>
 				<case tag="leisure" value="resort" order="8"/>
 				<case tag="sport" value="climbing" order="9"/>
 				<case tag="landuse" value="greenfield" order="7"/>
@@ -604,20 +606,95 @@
 -->
 	<polygon>
 		<switch noPolygons="false">
-			<case tag="landuse" value="meadow">
-				<apply color="#d5eaaf"/>
+			<case tag="landuse" value="residential">
+				<apply color="#f2f2f2"/>
+			</case>
+			<case tag="landuse" value="military">
+				<apply color="#aaaaaa"/>
+			</case>
+			<case tag="amenity" value="parking">
+				<case additional="access=customers"/>
+				<case additional="access=yes"/>
+				<apply>
+					<case additional="surface=asphalt"/>
+					<case additional="surface=gravel"/>
+					<case additional="surface=chipseal"/>
+					<case additional="surface=concrete"/>	
+					<apply color="#eeeeee"/>
+				</apply>
+			</case>
+			<switch>
+				<case tag="amenity" value="college"/>
+				<case tag="amenity" value="university"/>
+				<case tag="amenity" value="hospital"/>
+				<case tag="building" value="hospital"/>
+				<case tag="aeroway" value="runway"/>
+				<case tag="aeroway" value="taxiway"/>
+				<apply color="#FFFAE6"/>
+			</switch>
+			<switch>
+				<case tag="landuse" value="industrial"/>
+				<case tag="landuse" value="commercial"/>
+				<apply color="#d8d8d8"/>
+			</switch>
+			<case tag="leisure" value="track">
+				<case tag="sport" value="athletics"/>
+				<apply color="#DAF1C1"/>
+			</case>
+			<case tag="leisure" value="pitch">
+				<case tag="sport" value=""/>
+				<apply_if color="#DAF1C1"/>
+			</case>
+			<switch>
+				<case tag="leisure" value="pitch"/>
+				<case tag="leisure" value="playground"/>
+				<apply color="#8bccb3"/>
+			</switch>
+			<switch>
+				<case tag="landuse" value="forest"/>
+				<case tag="natural" value="wood"/>
+				<apply color="#C6DEAD"/>
+			</switch>
+			<switch>
+				<case tag="landuse" value="meadow"/>
+				<case tag="natural" value="heath"/>
+				<apply color="#CFECA8"/>
+			</switch>
+			<case tag="landuse" value="orchard">
+				<apply color="#F2E8B6"/>
+			</case>	
+			<switch>
+				<case tag="man_made" value="wastewater_plant"/>
+				<case tag="man_made" value="water_works"/>
+				<apply color="#6A88B0"/>
+			</switch>
+			<case tag="landuse" value="salt_pond">
+				<apply color="#5cc3e5" shader="wetland_saltern"/>
+			</case>
+			<case tag="natural" value="bare_rock">
+				<apply color="#99100000" shader="bare_rock"  />
+			</case>
+			<case tag="natural" value="wetland">
+				<apply color_0="#5cc3e5" shader="wetland"/>
 			</case>
 			<switch>
 				<case tag="natural" value="grassland"/>
 				<case tag="landuse" value="grass"/>
 				<apply color="#e9f2cb"/>
 			</switch>
-			<case tag="landuse" value="forest">
-				<apply color="#cbddb2"/>
-			</case>
 			<case tag="natural" value="scrub">
 				<apply color="#e8f1c6"/>
 			</case>
+			<switch>
+				<case tag="waterway" value="riverbank"/>
+				<case tag="waterway" value="river"/>
+				<case tag="waterway" value="lock_gate"/>
+				<case tag="water" value="stream"/>
+				<case tag="natural" value="water"/>
+				<case tag="natural" value="river"/>
+				<apply color="#53a4c9"/>
+			</switch>
+
 		</switch>
 
 		<switch hideBuildings="false">
